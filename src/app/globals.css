@@ -1,26 +1,277 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-midnight: #050505;
+  --color-card: #0A0A0A;
+  --color-gold: #D4AF37;
+  --color-gold-dim: #B8960E;
+  --color-platinum: #E2E8F0;
+  --color-muted: #A1A1AA;
+  --color-accent-red: #7f1d1d;
+  --color-glass: rgba(0, 0, 0, 0.4);
+
+  --font-heading: var(--font-cinzel);
+  --font-body: var(--font-manrope);
+
+  --color-background: #050505;
+  --color-foreground: #E2E8F0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base ─── */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-midnight);
+  color: var(--color-platinum);
+  font-family: var(--font-body), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-midnight);
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-midnight);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.5);
+}
+
+/* ─── Ultra-thin borders ─── */
+.border-almasi {
+  border-width: 0.5px;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Ken Burns ─── */
+@keyframes kenBurns {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+.ken-burns {
+  animation: kenBurns 20s ease-in-out infinite alternate;
+}
+
+/* ─── Gold Glow ─── */
+.gold-glow {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15),
+    0 0 40px rgba(212, 175, 55, 0.05);
+}
+
+.gold-glow-hover:hover {
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.25),
+    0 0 60px rgba(212, 175, 55, 0.1);
+}
+
+/* ─── Glass ─── */
+.glass {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* ─── No Scrollbar ─── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ─── Floating Particles ─── */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+
+  25% {
+    transform: translateY(-20px) translateX(10px);
+  }
+
+  50% {
+    transform: translateY(-10px) translateX(-5px);
+  }
+
+  75% {
+    transform: translateY(-25px) translateX(15px);
+  }
+}
+
+@keyframes floatSlow {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-40px) scale(1.1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulse-gold {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.1),
+      0 0 60px rgba(212, 175, 55, 0.05);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.2),
+      0 0 80px rgba(212, 175, 55, 0.1);
+  }
+}
+
+@keyframes borderGlow {
+
+  0%,
+  100% {
+    border-color: rgba(212, 175, 55, 0.1);
+  }
+
+  50% {
+    border-color: rgba(212, 175, 55, 0.3);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: floatSlow 8s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+}
+
+.animate-pulse-gold {
+  animation: pulse-gold 4s ease-in-out infinite;
+}
+
+.animate-border-glow {
+  animation: borderGlow 3s ease-in-out infinite;
+}
+
+/* ─── Text Gradient ─── */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #D4AF37 0%, #F5E6A3 50%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Noise Overlay ─── */
+.noise-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Vignette ─── */
+.vignette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(5, 5, 5, 0.8) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Card Shine ─── */
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shine::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(to bottom right,
+      rgba(212, 175, 55, 0) 0%,
+      rgba(212, 175, 55, 0.03) 45%,
+      rgba(212, 175, 55, 0.08) 50%,
+      rgba(212, 175, 55, 0.03) 55%,
+      rgba(212, 175, 55, 0) 100%);
+  transform: rotate(30deg) translateY(100%);
+  transition: transform 0.8s ease;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.card-shine:hover::before {
+  transform: rotate(30deg) translateY(-50%);
 }
