@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { serviceBookingSchema, type ServiceBookingFormValues } from "@/lib/validations/service";
 import { useServiceStore } from "@/store/service-store";
-import { X, CheckCircle, Truck } from "lucide-react";
+import { X, CheckCircle, Truck, User, Phone, Mail } from "lucide-react";
 import GoldButton from "@/components/ui/gold-button";
-import { useState } from "react";
 
 const serviceCategories = [
     "Minor Service",
@@ -33,6 +32,9 @@ export default function ServiceBookingModal() {
         defaultValues: {
             vehicleMakeModel: "",
             registrationNumber: "",
+            ownerName: "",
+            ownerPhone: "",
+            ownerEmail: "",
             serviceCategory: undefined,
             preferredDate: "",
             requiresConcierge: false,
@@ -63,7 +65,6 @@ export default function ServiceBookingModal() {
             window.addEventListener("keydown", handleEscape);
         }
         return () => window.removeEventListener("keydown", handleEscape);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bookingModalOpen]);
 
     function handleClose() {
@@ -78,6 +79,9 @@ export default function ServiceBookingModal() {
         addBooking({
             vehicleMakeModel: data.vehicleMakeModel,
             registrationNumber: data.registrationNumber,
+            ownerName: data.ownerName,
+            ownerPhone: data.ownerPhone,
+            ownerEmail: data.ownerEmail,
             serviceCategory: data.serviceCategory,
             preferredDate: data.preferredDate,
             requiresConcierge: data.requiresConcierge,
@@ -98,13 +102,13 @@ export default function ServiceBookingModal() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 min-h-screen overflow-y-auto"
                     onClick={(e) => {
                         if (e.target === overlayRef.current) handleClose();
                     }}
                 >
                     {/* Backdrop */}
-                    <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+                    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" />
 
                     {/* Modal */}
                     <motion.div
@@ -112,10 +116,10 @@ export default function ServiceBookingModal() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.96 }}
                         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                        className="relative w-full max-w-lg bg-[#0A0A0A] border border-white/[0.08] rounded-sm overflow-hidden max-h-[90vh] overflow-y-auto no-scrollbar"
+                        className="relative w-full max-w-lg bg-[#0A0A0A] border border-white/[0.08] rounded-sm overflow-hidden my-auto shadow-2xl shadow-black/50"
                     >
                         {/* Header */}
-                        <div className="px-6 pt-6 pb-4 border-b border-white/[0.06] flex items-center justify-between">
+                        <div className="sticky top-0 bg-[#0A0A0A]/95 backdrop-blur-sm z-10 px-6 pt-6 pb-4 border-b border-white/[0.06] flex items-center justify-between">
                             <div>
                                 <p className="text-[10px] tracking-[0.4em] uppercase text-gold/60 mb-1">
                                     Almasi Care
@@ -159,160 +163,156 @@ export default function ServiceBookingModal() {
                             </motion.div>
                         ) : (
                             /* ── Form ── */
-                            <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
-                                {/* Vehicle */}
-                                <div>
-                                    <label className="block text-xs tracking-wider uppercase text-muted mb-2">
-                                        Vehicle Make & Model
-                                    </label>
-                                    <input
-                                        {...register("vehicleMakeModel")}
-                                        placeholder="e.g., 2024 Range Rover Autobiography"
-                                        className={inputClass}
-                                    />
-                                    {errors.vehicleMakeModel && (
-                                        <p className="mt-1.5 text-xs text-red-400">
-                                            {errors.vehicleMakeModel.message}
-                                        </p>
-                                    )}
-                                </div>
-
-                                {/* Registration */}
-                                <div>
-                                    <label className="block text-xs tracking-wider uppercase text-muted mb-2">
-                                        Registration Number
-                                    </label>
-                                    <input
-                                        {...register("registrationNumber")}
-                                        placeholder="e.g., KDK 123A"
-                                        className={`${inputClass} uppercase`}
-                                    />
-                                    {errors.registrationNumber && (
-                                        <p className="mt-1.5 text-xs text-red-400">
-                                            {errors.registrationNumber.message}
-                                        </p>
-                                    )}
-                                </div>
-
-                                {/* Service Type */}
-                                <div>
-                                    <label className="block text-xs tracking-wider uppercase text-muted mb-2">
-                                        Service Type
-                                    </label>
-                                    <select
-                                        {...register("serviceCategory")}
-                                        className={`${inputClass} appearance-none cursor-pointer`}
-                                        defaultValue=""
-                                    >
-                                        <option value="" disabled className="bg-[#0A0A0A]">
-                                            Select service type
-                                        </option>
-                                        {serviceCategories.map((cat) => (
-                                            <option
-                                                key={cat}
-                                                value={cat}
-                                                className="bg-[#0A0A0A]"
-                                            >
-                                                {cat}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    {errors.serviceCategory && (
-                                        <p className="mt-1.5 text-xs text-red-400">
-                                            {errors.serviceCategory.message}
-                                        </p>
-                                    )}
-                                </div>
-
-                                {/* Date */}
-                                <div>
-                                    <label className="block text-xs tracking-wider uppercase text-muted mb-2">
-                                        Preferred Date
-                                    </label>
-                                    <input
-                                        type="date"
-                                        {...register("preferredDate")}
-                                        className={inputClass}
-                                    />
-                                    {errors.preferredDate && (
-                                        <p className="mt-1.5 text-xs text-red-400">
-                                            {errors.preferredDate.message}
-                                        </p>
-                                    )}
-                                </div>
-
-                                {/* Concierge Toggle */}
-                                <div className="flex items-center justify-between bg-white/[0.02] border border-white/[0.06] rounded-sm px-4 py-3.5">
-                                    <div className="flex items-center gap-3">
-                                        <Truck className="w-4 h-4 text-gold" strokeWidth={1.2} />
+                            <div className="max-h-[75vh] overflow-y-auto no-scrollbar">
+                                <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
+                                    {/* Owner Details */}
+                                    <div className="space-y-4 bg-white/[0.02] border border-white/[0.04] rounded-sm p-4">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <User className="w-3.5 h-3.5 text-gold/60" strokeWidth={1.2} />
+                                            <span className="text-[10px] tracking-[0.3em] uppercase text-gold/50">Contact Details</span>
+                                        </div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-xs tracking-wider uppercase text-muted mb-2">
+                                                    Full Name *
+                                                </label>
+                                                <input
+                                                    {...register("ownerName")}
+                                                    placeholder="John Kamau"
+                                                    className={inputClass}
+                                                />
+                                                {errors.ownerName && <p className="mt-1 text-xs text-red-400">{errors.ownerName.message}</p>}
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs tracking-wider uppercase text-muted mb-2">
+                                                    Phone *
+                                                </label>
+                                                <input
+                                                    {...register("ownerPhone")}
+                                                    placeholder="0712 345 678"
+                                                    className={inputClass}
+                                                />
+                                                {errors.ownerPhone && <p className="mt-1 text-xs text-red-400">{errors.ownerPhone.message}</p>}
+                                            </div>
+                                        </div>
                                         <div>
-                                            <p className="text-sm text-platinum">
-                                                Concierge Pick-up
-                                            </p>
-                                            <p className="text-[11px] text-muted">
-                                                Nairobi area only
-                                            </p>
+                                            <label className="block text-xs tracking-wider uppercase text-muted mb-2">
+                                                Email <span className="text-muted/50">(Optional)</span>
+                                            </label>
+                                            <input
+                                                {...register("ownerEmail")}
+                                                placeholder="john@example.com"
+                                                className={inputClass}
+                                            />
+                                            {errors.ownerEmail && <p className="mt-1 text-xs text-red-400">{errors.ownerEmail.message}</p>}
                                         </div>
                                     </div>
-                                    <label className="relative inline-flex items-center cursor-pointer">
-                                        <input
-                                            type="checkbox"
-                                            {...register("requiresConcierge")}
-                                            className="sr-only peer"
-                                        />
-                                        <div
-                                            className={`w-11 h-6 rounded-full transition-all duration-300 ${conciergeValue
-                                                    ? "bg-gold/30 border-gold/40"
-                                                    : "bg-white/[0.06] border-white/[0.08]"
-                                                } border`}
-                                        >
-                                            <div
-                                                className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full transition-all duration-300 ${conciergeValue
-                                                        ? "translate-x-5 bg-gold"
-                                                        : "translate-x-0 bg-muted"
-                                                    }`}
+
+                                    {/* Vehicle */}
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-xs tracking-wider uppercase text-muted mb-2">
+                                                Vehicle Make & Model *
+                                            </label>
+                                            <input
+                                                {...register("vehicleMakeModel")}
+                                                placeholder="e.g., 2024 Range Rover"
+                                                className={inputClass}
                                             />
+                                            {errors.vehicleMakeModel && <p className="mt-1 text-xs text-red-400">{errors.vehicleMakeModel.message}</p>}
                                         </div>
-                                    </label>
-                                </div>
+                                        <div>
+                                            <label className="block text-xs tracking-wider uppercase text-muted mb-2">
+                                                Registration Number *
+                                            </label>
+                                            <input
+                                                {...register("registrationNumber")}
+                                                placeholder="KDK 123A"
+                                                className={`${inputClass} uppercase`}
+                                            />
+                                            {errors.registrationNumber && <p className="mt-1 text-xs text-red-400">{errors.registrationNumber.message}</p>}
+                                        </div>
+                                    </div>
 
-                                {/* Description */}
-                                <div>
-                                    <label className="block text-xs tracking-wider uppercase text-muted mb-2">
-                                        Additional Details{" "}
-                                        <span className="text-muted/50">(Optional)</span>
-                                    </label>
-                                    <textarea
-                                        {...register("description")}
-                                        rows={3}
-                                        placeholder="Describe the issue or specific service request..."
-                                        className={`${inputClass} resize-none`}
-                                    />
-                                    {errors.description && (
-                                        <p className="mt-1.5 text-xs text-red-400">
-                                            {errors.description.message}
-                                        </p>
-                                    )}
-                                </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-xs tracking-wider uppercase text-muted mb-2">
+                                                Service Type *
+                                            </label>
+                                            <select
+                                                {...register("serviceCategory")}
+                                                className={`${inputClass} appearance-none cursor-pointer`}
+                                                defaultValue=""
+                                            >
+                                                <option value="" disabled className="bg-[#0A0A0A]">Select service</option>
+                                                {serviceCategories.map((cat) => (
+                                                    <option key={cat} value={cat} className="bg-[#0A0A0A]">{cat}</option>
+                                                ))}
+                                            </select>
+                                            {errors.serviceCategory && <p className="mt-1 text-xs text-red-400">{errors.serviceCategory.message}</p>}
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs tracking-wider uppercase text-muted mb-2">
+                                                Date *
+                                            </label>
+                                            <input
+                                                type="date"
+                                                {...register("preferredDate")}
+                                                className={inputClass}
+                                            />
+                                            {errors.preferredDate && <p className="mt-1 text-xs text-red-400">{errors.preferredDate.message}</p>}
+                                        </div>
+                                    </div>
 
-                                {/* Submit */}
-                                <div className="pt-2">
-                                    <GoldButton
-                                        type="submit"
-                                        size="lg"
-                                        className="w-full justify-center"
-                                    >
-                                        {isSubmitting ? (
-                                            <span className="inline-flex items-center gap-2">
-                                                <span className="w-4 h-4 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
-                                                Booking...
-                                            </span>
-                                        ) : (
-                                            "Confirm Booking"
-                                        )}
-                                    </GoldButton>
-                                </div>
-                            </form>
+                                    {/* Concierge */}
+                                    <div className="flex items-center justify-between bg-white/[0.02] border border-white/[0.06] rounded-sm px-4 py-3.5">
+                                        <div className="flex items-center gap-3">
+                                            <Truck className="w-4 h-4 text-gold shrink-0" strokeWidth={1.2} />
+                                            <div>
+                                                <p className="text-sm text-platinum">Concierge Pick-up</p>
+                                                <p className="text-[11px] text-muted">Nairobi area only</p>
+                                            </div>
+                                        </div>
+                                        <label className="relative inline-flex items-center cursor-pointer shrink-0">
+                                            <input
+                                                type="checkbox"
+                                                {...register("requiresConcierge")}
+                                                className="sr-only peer"
+                                            />
+                                            <div className={`w-11 h-6 rounded-full transition-all duration-300 ${conciergeValue ? "bg-gold/30 border-gold/40" : "bg-white/[0.06] border-white/[0.08]"} border`}>
+                                                <div className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full transition-all duration-300 ${conciergeValue ? "translate-x-5 bg-gold" : "translate-x-0 bg-muted"}`} />
+                                            </div>
+                                        </label>
+                                    </div>
+
+                                    {/* Description */}
+                                    <div>
+                                        <label className="block text-xs tracking-wider uppercase text-muted mb-2">
+                                            Additional Details <span className="text-muted/50">(Optional)</span>
+                                        </label>
+                                        <textarea
+                                            {...register("description")}
+                                            rows={2}
+                                            placeholder="Describe any specific issues..."
+                                            className={`${inputClass} resize-none`}
+                                        />
+                                        {errors.description && <p className="mt-1 text-xs text-red-400">{errors.description.message}</p>}
+                                    </div>
+
+                                    <div className="pt-2 sticky bottom-0 bg-[#0A0A0A] pb-0">
+                                        <GoldButton type="submit" size="lg" className="w-full justify-center whitespace-nowrap">
+                                            {isSubmitting ? (
+                                                <span className="inline-flex items-center gap-2">
+                                                    <span className="w-4 h-4 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
+                                                    Booking...
+                                                </span>
+                                            ) : (
+                                                "Confirm Booking"
+                                            )}
+                                        </GoldButton>
+                                    </div>
+                                </form>
+                            </div>
                         )}
                     </motion.div>
                 </motion.div>

@@ -70,7 +70,9 @@ We focused on refining the mobile UX, visuals, and separating complex workflows 
     - Created dedicated `/admin/bookings` and `/admin/customers` pages.
 
 ### **C. Functionality**
-6.  **Enhanced Booking Form**: Added "Owner Details" section (Name, Phone, Email) to ensure admins can contact clients.
+6.  **Enhanced Booking Forms**: 
+    - Added "Owner Details" section (Name, Phone, Email) to both dashboard and public booking forms to ensure admins can contact clients.
+    - Validated Kenyan phone number formats.
 7.  **Clickable CTAs**: Fixed interaction issues where background overlays were blocking button clicks.
 8.  **Footer**: Responsive grid layout and text overlap fixes.
 

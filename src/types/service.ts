@@ -14,8 +14,14 @@ export type WorkshopStatus =
 
 export interface ServiceBooking {
     id: string;
+    // Vehicle
     vehicleMakeModel: string;
     registrationNumber: string;
+    // Owner
+    ownerName: string;
+    ownerPhone: string;
+    ownerEmail?: string;
+    // Service
     serviceCategory: ServiceCategory;
     preferredDate: string;
     requiresConcierge: boolean;
