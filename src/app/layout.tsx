@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import WhatsAppFloat from "@/components/ui/whatsapp-float";
 import SmoothScrollProvider from "@/components/providers/smooth-scroll-provider";
+import { Analytics } from "@vercel/analytics/next";
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -55,6 +56,7 @@ export default function RootLayout({
           <Footer />
           <WhatsAppFloat />
         </SmoothScrollProvider>
+        <Analytics />
       </body>
     </html>
   );
