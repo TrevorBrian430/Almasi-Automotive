@@ -48,6 +48,9 @@ export default function ServiceBookingForm() {
         addBooking({
             vehicleMakeModel: data.vehicleMakeModel,
             registrationNumber: data.registrationNumber,
+            ownerName: data.ownerName,
+            ownerPhone: data.ownerPhone,
+            ownerEmail: data.ownerEmail,
             serviceCategory: data.serviceCategory,
             preferredDate: data.preferredDate,
             requiresConcierge: data.requiresConcierge,
