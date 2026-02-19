@@ -2,19 +2,29 @@
 
 import Link from "next/link";
 import { useUIStore } from "@/store/ui-store";
+import { useAuthStore } from "@/store/auth-store";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Diamond } from "lucide-react";
+import { Menu, X, Diamond, LogIn, LayoutDashboard, Shield } from "lucide-react";
+import { useEffect } from "react";
 
 const navLinks = [
     { href: "/", label: "Home" },
     { href: "/collection", label: "Collection" },
     { href: "/compare", label: "Compare" },
+    { href: "/service", label: "Service" },
     { href: "/about", label: "About" },
 ];
 
 export default function Navbar() {
     const { mobileMenuOpen, setMobileMenuOpen, currency, toggleCurrency } =
         useUIStore();
+    const { user, isAuthenticated, hydrate } = useAuthStore();
+
+    useEffect(() => {
+        hydrate();
+    }, [hydrate]);
+
+    const dashboardHref = user?.role === "admin" ? "/admin" : "/dashboard";
 
     return (
         <>
@@ -53,7 +63,7 @@ export default function Navbar() {
                     </div>
 
                     {/* Right Actions */}
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4">
                         {/* Currency Toggle */}
                         <button
                             onClick={toggleCurrency}
@@ -63,6 +73,29 @@ export default function Navbar() {
                             <span className="text-white/20">/</span>
                             <span className={currency === "USD" ? "text-gold" : ""}>USD</span>
                         </button>
+
+                        {/* Auth Button (Desktop) */}
+                        {isAuthenticated ? (
+                            <Link
+                                href={dashboardHref}
+                                className="hidden md:flex items-center gap-2 text-xs tracking-[0.15em] uppercase bg-gold/[0.08] border border-gold/20 text-gold px-4 py-2 rounded-sm hover:bg-gold/15 transition-all duration-300"
+                            >
+                                {user?.role === "admin" ? (
+                                    <Shield className="w-3.5 h-3.5" strokeWidth={1.2} />
+                                ) : (
+                                    <LayoutDashboard className="w-3.5 h-3.5" strokeWidth={1.2} />
+                                )}
+                                Dashboard
+                            </Link>
+                        ) : (
+                            <Link
+                                href="/login"
+                                className="hidden md:flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-muted hover:text-gold border border-white/10 px-4 py-2 rounded-sm hover:border-gold/20 transition-all duration-300"
+                            >
+                                <LogIn className="w-3.5 h-3.5" strokeWidth={1.2} />
+                                Sign In
+                            </Link>
+                        )}
 
                         {/* Mobile Menu Button */}
                         <button
@@ -115,6 +148,39 @@ export default function Navbar() {
                                     </Link>
                                 </motion.div>
                             ))}
+
+                            {/* Auth Link (Mobile) */}
+                            <motion.div
+                                initial={{ opacity: 0, x: 30 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.1 + navLinks.length * 0.1, duration: 0.5 }}
+                            >
+                                {isAuthenticated ? (
+                                    <Link
+                                        href={dashboardHref}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="flex items-center gap-3 py-4 text-2xl tracking-[0.2em] uppercase text-gold border-b border-white/[0.06]"
+                                        style={{ fontFamily: "var(--font-heading)" }}
+                                    >
+                                        {user?.role === "admin" ? (
+                                            <Shield className="w-5 h-5" strokeWidth={1.2} />
+                                        ) : (
+                                            <LayoutDashboard className="w-5 h-5" strokeWidth={1.2} />
+                                        )}
+                                        Dashboard
+                                    </Link>
+                                ) : (
+                                    <Link
+                                        href="/login"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="flex items-center gap-3 py-4 text-2xl tracking-[0.2em] uppercase text-gold border-b border-white/[0.06]"
+                                        style={{ fontFamily: "var(--font-heading)" }}
+                                    >
+                                        <LogIn className="w-5 h-5" strokeWidth={1.2} />
+                                        Sign In
+                                    </Link>
+                                )}
+                            </motion.div>
 
                             {/* Currency Toggle Mobile */}
                             <motion.button

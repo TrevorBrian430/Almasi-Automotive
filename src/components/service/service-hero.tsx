@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import GoldButton from "@/components/ui/gold-button";
+import { useServiceStore } from "@/store/service-store";
 import { ChevronDown } from "lucide-react";
 
-/* ─── Floating gold particles (generated client-side to avoid hydration mismatch) ─── */
+/* ─── Floating gold particles ─── */
 function generateParticles() {
     return Array.from({ length: 20 }, (_, i) => ({
         id: i,
@@ -17,31 +18,38 @@ function generateParticles() {
     }));
 }
 
-export default function Hero() {
+export default function ServiceHero() {
+    const { setBookingModalOpen } = useServiceStore();
     const [particles, setParticles] = useState<ReturnType<typeof generateParticles>>([]);
 
     useEffect(() => {
         setParticles(generateParticles());
     }, []);
+
     return (
-        <section className="relative h-screen w-full overflow-hidden flex items-center justify-center noise-overlay vignette">
+        <section className="relative min-h-[100svh] w-full overflow-hidden flex items-center justify-center noise-overlay vignette">
             {/* ─── Background Layers ─── */}
             <div className="absolute inset-0 z-0">
                 {/* Base gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#030303] to-[#0a0a0a]" />
 
                 {/* Animated radial gradient orbs */}
-                <div className="absolute top-1/4 left-1/3 w-[300px] md:w-[700px] h-[300px] md:h-[700px] rounded-full animate-float-slow"
+                <div
+                    className="absolute top-1/4 left-1/3 w-[300px] md:w-[700px] h-[300px] md:h-[700px] rounded-full animate-float-slow will-change-transform"
                     style={{
                         background: "radial-gradient(circle, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.02) 40%, transparent 70%)",
+                        transform: "translateZ(0)",
                     }}
                 />
-                <div className="absolute bottom-1/3 right-1/4 w-[200px] md:w-[500px] h-[200px] md:h-[500px] rounded-full animate-float"
+                <div
+                    className="absolute bottom-1/3 right-1/4 w-[200px] md:w-[500px] h-[200px] md:h-[500px] rounded-full animate-float will-change-transform"
                     style={{
                         background: "radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 60%)",
+                        transform: "translateZ(0)",
                     }}
                 />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[900px] h-[400px] md:h-[900px] rounded-full opacity-50"
+                <div
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[900px] h-[400px] md:h-[900px] rounded-full opacity-50"
                     style={{
                         background: "radial-gradient(ellipse, rgba(212,175,55,0.04) 0%, transparent 50%)",
                     }}
@@ -111,7 +119,7 @@ export default function Hero() {
                 >
                     <span className="inline-flex items-center gap-3 text-[10px] sm:text-xs tracking-[0.5em] uppercase text-gold/70 font-medium">
                         <span className="w-8 sm:w-12 h-[1px] bg-gold/30" />
-                        Est. Nairobi, Kenya
+                        Almasi Care
                         <span className="w-8 sm:w-12 h-[1px] bg-gold/30" />
                     </span>
                 </motion.div>
@@ -123,9 +131,11 @@ export default function Hero() {
                     className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-wide text-platinum mb-6 sm:mb-8"
                     style={{ fontFamily: "var(--font-heading)" }}
                 >
-                    The Art of
+                    Precision{" "}
+                    <span className="text-gradient-gold">Care.</span>
                     <br />
-                    <span className="text-gradient-gold">Acquisition</span>
+                    Manufacturer{" "}
+                    <span className="text-gradient-gold">Standards.</span>
                 </motion.h1>
 
                 <motion.p
@@ -134,9 +144,9 @@ export default function Hero() {
                     transition={{ duration: 1, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     className="text-muted text-sm sm:text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-8 sm:mb-12"
                 >
-                    We curate the world&apos;s most distinguished automobiles for
-                    East Africa&apos;s most discerning individuals. Direct imports.
-                    Exceptional financing. White-glove concierge.
+                    Factory-trained technicians. Official diagnostic systems. From
+                    routine servicing to full paint correction — your vehicle receives
+                    the meticulous attention it deserves.
                 </motion.p>
 
                 <motion.div
@@ -145,15 +155,15 @@ export default function Hero() {
                     transition={{ duration: 1, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
                     className="flex flex-col sm:flex-row items-center justify-center gap-4"
                 >
-                    <GoldButton href="/collection" size="lg">
-                        View Collection
+                    <GoldButton onClick={() => setBookingModalOpen(true)} size="lg">
+                        Book a Service
                     </GoldButton>
                     <GoldButton
-                        href="https://wa.me/254700000000"
+                        href="#services"
                         size="lg"
                         className="border-white/10 text-platinum hover:bg-white/5 hover:border-white/20 hover:shadow-none"
                     >
-                        Speak to a Specialist
+                        Explore Services
                     </GoldButton>
                 </motion.div>
             </div>

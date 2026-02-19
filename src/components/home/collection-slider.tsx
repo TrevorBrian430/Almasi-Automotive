@@ -17,7 +17,7 @@ export default function CollectionSlider() {
     return (
         <section className="relative py-20 sm:py-32 overflow-hidden">
             {/* Background accent */}
-            <div className="absolute inset-0">
+            <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/10 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/10 to-transparent" />
             </div>
@@ -90,6 +90,23 @@ export default function CollectionSlider() {
                         ))}
                     </div>
                 </div>
+
+                {/* View All CTA */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex justify-center mt-10 sm:mt-14"
+                >
+                    <Link
+                        href="/collection"
+                        className="inline-flex items-center gap-3 text-sm tracking-[0.15em] uppercase text-gold border border-gold/20 bg-gold/[0.04] px-8 py-3.5 rounded-sm hover:bg-gold/[0.08] hover:border-gold/30 transition-all duration-300 group"
+                    >
+                        View Full Collection
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" strokeWidth={1.5} />
+                    </Link>
+                </motion.div>
             </div>
         </section>
     );

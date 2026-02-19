@@ -41,7 +41,7 @@ export default function SpecsPanel({ car }: SpecsPanelProps) {
         >
             {/* Price & Status */}
             <div className="bg-card border border-white/[0.06] rounded-sm p-5 sm:p-8">
-                <div className="flex items-start justify-between gap-4 mb-6">
+                <div className="flex flex-wrap items-start justify-between gap-3 sm:gap-4 mb-6">
                     <div>
                         <p className="text-xs text-muted tracking-wider uppercase mb-2">
                             Price

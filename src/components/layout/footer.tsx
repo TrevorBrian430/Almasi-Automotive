@@ -5,9 +5,9 @@ export default function Footer() {
     return (
         <footer className="border-t border-white/[0.06] bg-card">
             <div className="max-w-[1400px] mx-auto px-5 sm:px-6 md:px-10 py-12 sm:py-20">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-16">
                     {/* Brand */}
-                    <div>
+                    <div className="sm:col-span-2 lg:col-span-1">
                         <div className="flex items-center gap-3 mb-6">
                             <Diamond className="w-5 h-5 text-gold" strokeWidth={1.5} />
                             <span
@@ -32,13 +32,19 @@ export default function Footer() {
                             Navigation
                         </h4>
                         <div className="space-y-3">
-                            {["Home", "Collection", "Compare", "About"].map((item) => (
+                            {[
+                                { label: "Home", href: "/" },
+                                { label: "Collection", href: "/collection" },
+                                { label: "Compare", href: "/compare" },
+                                { label: "Service", href: "/service" },
+                                { label: "About", href: "/about" },
+                            ].map((item) => (
                                 <Link
-                                    key={item}
-                                    href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                                    key={item.label}
+                                    href={item.href}
                                     className="block text-sm text-muted hover:text-platinum transition-colors duration-300"
                                 >
-                                    {item}
+                                    {item.label}
                                 </Link>
                             ))}
                         </div>
@@ -54,23 +60,23 @@ export default function Footer() {
                         </h4>
                         <div className="space-y-4 text-sm text-muted">
                             <div className="flex items-start gap-3">
-                                <MapPin className="w-4 h-4 mt-0.5 text-gold/60" strokeWidth={1.5} />
+                                <MapPin className="w-4 h-4 mt-0.5 text-gold/60 shrink-0" strokeWidth={1.5} />
                                 <span>Westlands, Nairobi, Kenya</span>
                             </div>
                             <div className="flex items-center gap-3">
-                                <Phone className="w-4 h-4 text-gold/60" strokeWidth={1.5} />
+                                <Phone className="w-4 h-4 text-gold/60 shrink-0" strokeWidth={1.5} />
                                 <span>+254 742 577 640</span>
                             </div>
                             <div className="flex items-center gap-3">
-                                <Mail className="w-4 h-4 text-gold/60" strokeWidth={1.5} />
-                                <span>concierge@almasi.co.ke</span>
+                                <Mail className="w-4 h-4 text-gold/60 shrink-0" strokeWidth={1.5} />
+                                <span className="break-all">concierge@almasi.co.ke</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="mt-10 sm:mt-16 pt-6 sm:pt-8 border-t border-white/[0.06] flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="mt-10 sm:mt-16 pt-6 sm:pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
                     <p className="text-xs text-muted tracking-wider">
                         &copy; {new Date().getFullYear()} Almasi Automotive. All rights reserved.
                     </p>

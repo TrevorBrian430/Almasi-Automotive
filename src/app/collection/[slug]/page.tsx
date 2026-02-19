@@ -40,7 +40,7 @@ export default function VehiclePage() {
 
     return (
         <>
-            <div className="pt-24 pb-32 md:pb-20">
+            <div className="pt-24 pb-44 md:pb-20">
                 <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10">
                     {/* Breadcrumb */}
                     <motion.div
