@@ -77,10 +77,10 @@ export function DesktopFilterSidebar() {
         <aside className="hidden lg:block w-[260px] shrink-0">
             <div className="sticky top-28">
                 <h3
-                    className="text-xs tracking-[0.3em] uppercase text-gold mb-8"
+                    className="text-[10px] tracking-[0.4em] uppercase text-gold/60 mb-8 ml-1"
                     style={{ fontFamily: "var(--font-heading)" }}
                 >
-                    Refine
+                    Refine Collection
                 </h3>
                 <FilterContent />
             </div>
@@ -155,7 +155,7 @@ function FilterGroup({
 }) {
     return (
         <div>
-            <p className="text-xs tracking-[0.2em] uppercase text-muted mb-4">
+            <p className="text-[10px] tracking-[0.25em] uppercase text-platinum/40 mb-3 ml-1">
                 {label}
             </p>
             <div className="flex flex-wrap gap-2">{children}</div>
@@ -176,10 +176,10 @@ function FilterChip({
         <button
             onClick={onClick}
             className={cn(
-                "px-3 py-1.5 text-xs tracking-wider border rounded-full transition-all duration-300",
+                "px-3.5 py-2 text-[11px] tracking-[0.1em] uppercase border rounded-sm transition-all duration-300",
                 active
-                    ? "border-gold/40 text-gold bg-gold/10"
-                    : "border-white/10 text-muted hover:border-white/20 hover:text-platinum"
+                    ? "bg-gold border-gold text-black font-medium shadow-[0_0_20px_rgba(212,175,55,0.25)]"
+                    : "bg-white/[0.02] border-white/[0.06] text-muted/80 hover:bg-white/[0.06] hover:border-white/[0.1] hover:text-platinum"
             )}
         >
             {label}
