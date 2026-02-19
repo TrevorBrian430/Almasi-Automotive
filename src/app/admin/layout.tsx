@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
     Diamond, LayoutGrid, ClipboardList, BarChart3, Users,
-    Menu, X, LogOut, Shield,
+    Menu, X, LogOut, Shield, Image as ImageIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -16,6 +16,7 @@ const sidebarLinks = [
     { href: "/admin/workshop", label: "Workshop Bay", icon: LayoutGrid },
     { href: "/admin/bookings", label: "Bookings", icon: ClipboardList },
     { href: "/admin/customers", label: "Customers", icon: Users },
+    { href: "/admin/media", label: "Media Manager", icon: ImageIcon },
 ];
 
 export default function AdminLayout({
