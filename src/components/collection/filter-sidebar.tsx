@@ -4,8 +4,10 @@ import { useUIStore } from "@/store/ui-store";
 import { cn } from "@/lib/utils";
 import { SlidersHorizontal, X } from "lucide-react";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const statusOptions = ["All", "Available", "Reserved", "Sold", "Importing"] as const;
+const priceOptions = ["All", "Under 15M", "15M - 25M", "25M - 35M", "Above 35M"] as const;
 const locationOptions = ["All", "Nairobi Showroom", "Mombasa Port", "Transit"] as const;
 const bodyOptions = ["All", "SUV", "Crossover", "Sedan"] as const;
 
@@ -15,22 +17,44 @@ function FilterContent() {
         filterStatus,
         filterLocation,
         filterBody,
+        priceRange,
         setFilterStatus,
         setFilterLocation,
         setFilterBody,
+        setPriceRange,
         resetFilters,
     } = useUIStore();
 
     const hasActiveFilters =
-        filterStatus !== "All" || filterLocation !== "All" || filterBody !== "All";
+        filterStatus !== "All" ||
+        filterLocation !== "All" ||
+        filterBody !== "All" ||
+        priceRange !== "All";
 
     return (
-        <div className="space-y-10">
+        <div className="space-y-10 pb-8">
+            <FilterGroup label="Price Range">
+                {priceOptions.map((opt) => (
+                    <FilterChip
+                        key={opt}
+                        label={opt}
+                        active={priceRange === opt}
+                        onClick={() => setPriceRange(opt)}
+                    />
+                ))}
+            </FilterGroup>
+
             <FilterGroup label="Status">
                 {statusOptions.map((opt) => (
                     <FilterChip
                         key={opt}
-                        label={opt === "Available" ? "Showroom Ready" : opt === "Importing" ? "Import (25 Days)" : opt}
+                        label={
+                            opt === "Available"
+                                ? "Showroom Ready"
+                                : opt === "Importing"
+                                    ? "Import (25 Days)"
+                                    : opt
+                        }
                         active={filterStatus === opt}
                         onClick={() => setFilterStatus(opt as typeof filterStatus)}
                     />
@@ -41,7 +65,13 @@ function FilterContent() {
                 {locationOptions.map((opt) => (
                     <FilterChip
                         key={opt}
-                        label={opt === "All" ? "All" : opt === "Nairobi Showroom" ? "Westlands" : opt}
+                        label={
+                            opt === "All"
+                                ? "All"
+                                : opt === "Nairobi Showroom"
+                                    ? "Westlands"
+                                    : opt
+                        }
                         active={filterLocation === opt}
                         onClick={() => setFilterLocation(opt as typeof filterLocation)}
                     />
@@ -62,7 +92,7 @@ function FilterContent() {
             {hasActiveFilters && (
                 <button
                     onClick={resetFilters}
-                    className="text-xs text-gold/70 hover:text-gold tracking-wider uppercase transition-colors"
+                    className="text-[10px] tracking-[0.2em] uppercase text-gold/70 hover:text-gold transition-colors border-b border-gold/30 pb-0.5"
                 >
                     Clear All Filters
                 </button>
@@ -90,47 +120,76 @@ export function DesktopFilterSidebar() {
 
 /* ─── Mobile: button + bottom drawer (only visible below lg) ─── */
 export function MobileFilterTrigger() {
-    const { filterStatus, filterLocation, filterBody } = useUIStore();
+    const { filterStatus, filterLocation, filterBody, priceRange } = useUIStore();
     const [mobileOpen, setMobileOpen] = useState(false);
     const hasActiveFilters =
-        filterStatus !== "All" || filterLocation !== "All" || filterBody !== "All";
+        filterStatus !== "All" ||
+        filterLocation !== "All" ||
+        filterBody !== "All" ||
+        priceRange !== "All";
 
     return (
         <>
             <button
                 onClick={() => setMobileOpen(true)}
-                className="lg:hidden flex items-center gap-2 text-sm text-muted border border-white/10 px-4 py-2 rounded-full hover:border-gold/30 hover:text-gold transition-all"
+                className={cn(
+                    "lg:hidden flex items-center gap-2.5 text-[11px] tracking-widest uppercase px-5 py-2.5 rounded-sm transition-all duration-300",
+                    hasActiveFilters
+                        ? "bg-gold text-black font-medium shadow-[0_0_15px_rgba(212,175,55,0.3)]"
+                        : "bg-white/[0.05] border border-white/10 text-platinum hover:bg-white/10"
+                )}
             >
-                <SlidersHorizontal className="w-4 h-4" strokeWidth={1.5} />
+                <SlidersHorizontal className="w-3.5 h-3.5" strokeWidth={1.5} />
                 Filters
                 {hasActiveFilters && (
-                    <span className="w-2 h-2 rounded-full bg-gold" />
+                    <span className="flex items-center justify-center w-4 h-4 rounded-full bg-black/10 text-[9px] font-bold">
+                        {[
+                            filterStatus !== "All",
+                            filterLocation !== "All",
+                            filterBody !== "All",
+                            priceRange !== "All",
+                        ].filter(Boolean).length}
+                    </span>
                 )}
             </button>
 
             {/* Mobile Drawer */}
-            {mobileOpen && (
-                <div className="fixed inset-0 z-50 lg:hidden">
-                    <div
-                        className="absolute inset-0 bg-black/60"
-                        onClick={() => setMobileOpen(false)}
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 bg-midnight border-t border-white/[0.06] rounded-t-2xl p-6 sm:p-8 max-h-[80vh] overflow-y-auto">
-                        <div className="flex items-center justify-between mb-8">
-                            <h3
-                                className="text-sm tracking-[0.3em] uppercase text-gold"
-                                style={{ fontFamily: "var(--font-heading)" }}
-                            >
-                                Filters
-                            </h3>
-                            <button onClick={() => setMobileOpen(false)}>
-                                <X className="w-5 h-5 text-muted" strokeWidth={1.5} />
-                            </button>
-                        </div>
-                        <FilterContent />
+            <AnimatePresence>
+                {mobileOpen && (
+                    <div className="fixed inset-0 z-50 lg:hidden">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                            onClick={() => setMobileOpen(false)}
+                        />
+                        <motion.div
+                            initial={{ y: "100%" }}
+                            animate={{ y: 0 }}
+                            exit={{ y: "100%" }}
+                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                            className="absolute bottom-0 left-0 right-0 bg-[#0A0A0A] border-t border-white/[0.08] rounded-t-[2rem] p-6 sm:p-8 max-h-[85vh] overflow-y-auto shadow-2xl shadow-black"
+                        >
+                            <div className="flex items-center justify-between mb-8 sticky top-0 bg-[#0A0A0A] z-10 pb-4 border-b border-white/[0.04]">
+                                <h3
+                                    className="text-xs tracking-[0.3em] uppercase text-gold/70"
+                                    style={{ fontFamily: "var(--font-heading)" }}
+                                >
+                                    Refine Collection
+                                </h3>
+                                <button
+                                    onClick={() => setMobileOpen(false)}
+                                    className="p-2 -mr-2 text-muted hover:text-white transition-colors"
+                                >
+                                    <X className="w-5 h-5" strokeWidth={1.5} />
+                                </button>
+                            </div>
+                            <FilterContent />
+                        </motion.div>
                     </div>
-                </div>
-            )}
+                )}
+            </AnimatePresence>
         </>
     );
 }

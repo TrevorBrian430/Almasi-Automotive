@@ -9,17 +9,34 @@ import { DesktopFilterSidebar, MobileFilterTrigger } from "@/components/collecti
 import CurrencyToggle from "@/components/collection/currency-toggle";
 
 export default function CollectionPage() {
-    const { filterStatus, filterLocation, filterBody } = useUIStore();
+    const { filterStatus, filterLocation, filterBody, priceRange } = useUIStore();
 
     const filteredCars = useMemo(() => {
         return cars.filter((car) => {
+            // Price Filter
+            if (priceRange !== "All") {
+                const price = car.price.kes;
+                if (priceRange === "Under 15M" && price >= 15000000) return false;
+                if (
+                    priceRange === "15M - 25M" &&
+                    (price < 15000000 || price >= 25000000)
+                )
+                    return false;
+                if (
+                    priceRange === "25M - 35M" &&
+                    (price < 25000000 || price >= 35000000)
+                )
+                    return false;
+                if (priceRange === "Above 35M" && price < 35000000) return false;
+            }
+
             if (filterStatus !== "All" && car.status !== filterStatus) return false;
             if (filterLocation !== "All" && car.location !== filterLocation)
                 return false;
             if (filterBody !== "All" && car.body !== filterBody) return false;
             return true;
         });
-    }, [filterStatus, filterLocation, filterBody]);
+    }, [filterStatus, filterLocation, filterBody, priceRange]);
 
     return (
         <div className="pt-28 pb-20">

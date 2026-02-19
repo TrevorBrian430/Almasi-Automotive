@@ -10,6 +10,7 @@ interface UIState {
     filterStatus: StatusFilter;
     filterLocation: LocationFilter;
     filterBody: BodyFilter;
+    priceRange: string;
     mobileMenuOpen: boolean;
     bookingModalOpen: boolean;
 
@@ -18,6 +19,7 @@ interface UIState {
     setFilterStatus: (s: StatusFilter) => void;
     setFilterLocation: (l: LocationFilter) => void;
     setFilterBody: (b: BodyFilter) => void;
+    setPriceRange: (p: string) => void;
     setMobileMenuOpen: (open: boolean) => void;
     setBookingModalOpen: (open: boolean) => void;
     resetFilters: () => void;
@@ -28,6 +30,7 @@ export const useUIStore = create<UIState>((set) => ({
     filterStatus: "All",
     filterLocation: "All",
     filterBody: "All",
+    priceRange: "All",
     mobileMenuOpen: false,
     bookingModalOpen: false,
 
@@ -37,8 +40,14 @@ export const useUIStore = create<UIState>((set) => ({
     setFilterStatus: (s) => set({ filterStatus: s }),
     setFilterLocation: (l) => set({ filterLocation: l }),
     setFilterBody: (b) => set({ filterBody: b }),
+    setPriceRange: (p) => set({ priceRange: p }),
     setMobileMenuOpen: (open) => set({ mobileMenuOpen: open }),
     setBookingModalOpen: (open) => set({ bookingModalOpen: open }),
     resetFilters: () =>
-        set({ filterStatus: "All", filterLocation: "All", filterBody: "All" }),
+        set({
+            filterStatus: "All",
+            filterLocation: "All",
+            filterBody: "All",
+            priceRange: "All",
+        }),
 }));
