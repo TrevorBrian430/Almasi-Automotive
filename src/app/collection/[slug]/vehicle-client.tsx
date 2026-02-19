@@ -1,6 +1,6 @@
 "use client";
 
-import { params } from "next/navigation"; // Not needed
+
 import { AlmasiCar } from "@/types/car";
 import Gallery from "@/components/vehicle/gallery";
 import SpecsPanel from "@/components/vehicle/specs-panel";
