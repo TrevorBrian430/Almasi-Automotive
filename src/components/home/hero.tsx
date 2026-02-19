@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import GoldButton from "@/components/ui/gold-button";
+import Link from "next/link";
 import { ChevronDown } from "lucide-react";
+import GoldButton from "@/components/ui/gold-button";
 
 /* ─── Floating gold particles (generated client-side to avoid hydration mismatch) ─── */
 function generateParticles() {
@@ -17,18 +18,27 @@ function generateParticles() {
     }));
 }
 
-export default function Hero() {
+export default function Hero({ content }: { content?: any }) {
     const [particles, setParticles] = useState<ReturnType<typeof generateParticles>>([]);
+
+    // Default connection
+    const title = content?.title || "The Art of \nAcquisition";
+    const subtitle = content?.subtitle || "We curate the world's most distinguished automobiles for East Africa's most discerning individuals. Direct imports. Exceptional financing. White-glove concierge.";
+    const bgImage = content?.image; // Used for inline style if provided
 
     useEffect(() => {
         setParticles(generateParticles());
     }, []);
+
     return (
         <section className="relative h-screen w-full overflow-hidden flex items-center justify-center noise-overlay vignette">
             {/* ─── Background Layers ─── */}
             <div className="absolute inset-0 z-0">
                 {/* Base gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#030303] to-[#0a0a0a]" />
+                <div
+                    className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#030303] to-[#0a0a0a]"
+                    style={bgImage ? { backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundBlendMode: 'overlay' } : undefined}
+                />
 
                 {/* Animated radial gradient orbs */}
                 <div className="absolute top-1/4 left-1/3 w-[300px] md:w-[700px] h-[300px] md:h-[700px] rounded-full animate-float-slow"
@@ -102,59 +112,63 @@ export default function Hero() {
             </div>
 
             {/* ─── Content ─── */}
-            <div className="relative z-10 text-center px-5 sm:px-6 max-w-4xl mx-auto">
+            <div className="relative z-10 flex flex-col h-full items-center justify-center text-center px-4 sm:px-6">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="mb-6"
-                >
-                    <span className="inline-flex items-center gap-3 text-[10px] sm:text-xs tracking-[0.5em] uppercase text-gold/70 font-medium">
-                        <span className="w-8 sm:w-12 h-[1px] bg-gold/30" />
-                        Est. Nairobi, Kenya
-                        <span className="w-8 sm:w-12 h-[1px] bg-gold/30" />
-                    </span>
-                </motion.div>
-
-                <motion.h1
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-wide text-platinum mb-6 sm:mb-8"
-                    style={{ fontFamily: "var(--font-heading)" }}
-                >
-                    The Art of
-                    <br />
-                    <span className="text-gradient-gold">Acquisition</span>
-                </motion.h1>
-
-                <motion.p
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="text-muted text-sm sm:text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-8 sm:mb-12"
+                    transition={{ duration: 1, delay: 0.2 }}
+                    className="max-w-5xl mx-auto"
                 >
-                    We curate the world&apos;s most distinguished automobiles for
-                    East Africa&apos;s most discerning individuals. Direct imports.
-                    Exceptional financing. White-glove concierge.
-                </motion.p>
+                    {/* Top Label - Matching ServiceHero style */}
+                    <div className="flex items-center justify-center gap-3 mb-4 sm:mb-8 opacity-80">
+                        <div className="h-[1px] w-8 sm:w-12 bg-gold/50" />
+                        <span className="text-[10px] sm:text-xs tracking-[0.3em] text-gold uppercase font-medium">
+                            Est. Nairobi, Kenya
+                        </span>
+                        <div className="h-[1px] w-8 sm:w-12 bg-gold/50" />
+                    </div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
-                    className="flex flex-col sm:flex-row items-center justify-center gap-4"
-                >
-                    <GoldButton href="/collection" size="lg">
-                        View Collection
-                    </GoldButton>
-                    <GoldButton
-                        href="https://wa.me/254742577640"
-                        size="lg"
-                        className="border-white/10 text-platinum hover:bg-white/5 hover:border-white/20 hover:shadow-none"
+                    {/* Main Title - Matching ServiceHero font/spacing */}
+                    <h1
+                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium tracking-tight leading-[0.9] mb-6 sm:mb-10 text-platinum"
+                        style={{ fontFamily: "var(--font-heading)" }}
                     >
-                        Speak to a Specialist
-                    </GoldButton>
+                        {content?.title?.split(/\n|\\n/).map((line: string, i: number) => (
+                            <span key={i} className={i === 1 ? "block text-gradient-gold mt-2" : "block text-white"}>
+                                {line}
+                            </span>
+                        )) || (
+                                <>
+                                    <span className="block text-white">The Art of</span>
+                                    <span className="block text-gradient-gold mt-1 sm:mt-2">Acquisition</span>
+                                </>
+                            )}
+                    </h1>
+
+                    {/* Subtitle */}
+                    <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-platinum/80 leading-relaxed font-light mb-8 sm:mb-14 tracking-wide px-4">
+                        {content?.subtitle ||
+                            "We curate the world's most distinguished automobiles for East Africa's most discerning individuals. Direct imports. Exceptional financing. White-glove concierge."}
+                    </p>
+
+                    {/* Buttons */}
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+                        <GoldButton
+                            href="/collection"
+                            size="lg"
+                            className="w-auto px-6 sm:px-10"
+                        >
+                            View Collection
+                        </GoldButton>
+
+                        <GoldButton
+                            href="/contact"
+                            size="lg"
+                            className="border-white/30 text-white hover:bg-white/5 hover:border-white/50 hover:shadow-none w-auto px-6 sm:px-10"
+                        >
+                            Speak to a Specialist
+                        </GoldButton>
+                    </div>
                 </motion.div>
             </div>
 

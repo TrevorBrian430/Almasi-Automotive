@@ -4,34 +4,17 @@ import SectionHeading from "@/components/ui/section-heading";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 
-const testimonials = [
+const testimonialsMock = [
     {
         name: "James Mwangi",
         role: "CEO, Capital Holdings",
         quote: "Almasi made importing my G63 completely effortless. From sourcing to clearing at the port, every detail was handled with precision. The car arrived exactly as described.",
         rating: 5,
     },
-    {
-        name: "Dr. Wanjiku Karanja",
-        role: "Surgeon, Nairobi Hospital",
-        quote: "I've purchased two vehicles through Almasi now. Their transparency on duty calculations and financing options is unmatched. Truly a white-glove experience.",
-        rating: 5,
-    },
-    {
-        name: "Hassan Omar",
-        role: "Property Developer",
-        quote: "The team went above and beyond to find the exact spec Range Rover I wanted. Delivered to my doorstep in Mombasa with full documentation. Highly recommend.",
-        rating: 5,
-    },
-    {
-        name: "Grace Atieno",
-        role: "Country Director, Tech Corp",
-        quote: "What sets Almasi apart is the after-sale relationship. They helped me with insurance, service scheduling, and even resale of my previous vehicle. True concierge service.",
-        rating: 5,
-    },
 ];
 
-export default function Testimonials() {
+export default function Testimonials({ testimonials }: { testimonials: any[] }) {
+    const list = (testimonials && testimonials.length > 0) ? testimonials : testimonialsMock;
     return (
         <section className="relative py-20 sm:py-32 overflow-hidden">
             {/* Background */}
@@ -45,7 +28,7 @@ export default function Testimonials() {
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {testimonials.map((t, i) => (
+                    {list.map((t, i) => (
                         <motion.div
                             key={t.name}
                             initial={{ opacity: 0, y: 30 }}

@@ -3,11 +3,11 @@
 import { MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
-const WHATSAPP_NUMBER = "254742577640";
 const DEFAULT_MESSAGE = "Hi Almasi Automotive! I'm interested in your luxury vehicles. Could you help me?";
 
-export default function WhatsAppFloat() {
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(DEFAULT_MESSAGE)}`;
+export default function WhatsAppFloat({ phone }: { phone?: string }) {
+    const phoneNumber = phone?.replace(/[^0-9]/g, "") || "254742577640";
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(DEFAULT_MESSAGE)}`;
 
     return (
         <motion.a

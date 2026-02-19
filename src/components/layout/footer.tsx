@@ -1,7 +1,11 @@
 import { Diamond, MapPin, Phone, Mail } from "lucide-react";
 import Link from "next/link";
+import { getContent } from "@/lib/actions";
 
-export default function Footer() {
+export default async function Footer() {
+    const { data: content } = await getContent();
+    const contact = content?.contact;
+
     return (
         <footer className="border-t border-white/[0.06] bg-card">
             <div className="max-w-[1400px] mx-auto px-5 sm:px-6 md:px-10 py-12 sm:py-20">
@@ -61,15 +65,15 @@ export default function Footer() {
                         <div className="space-y-4 text-sm text-muted">
                             <div className="flex items-start gap-3">
                                 <MapPin className="w-4 h-4 mt-0.5 text-gold/60 shrink-0" strokeWidth={1.5} />
-                                <span>Westlands, Nairobi, Kenya</span>
+                                <span>{contact?.address || "Westlands, Nairobi, Kenya"}</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <Phone className="w-4 h-4 text-gold/60 shrink-0" strokeWidth={1.5} />
-                                <span>+254 742 577 640</span>
+                                <span>{contact?.phone || "+254 742 577 640"}</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <Mail className="w-4 h-4 text-gold/60 shrink-0" strokeWidth={1.5} />
-                                <span className="break-all">concierge@almasi.co.ke</span>
+                                <span className="break-all">{contact?.email || "concierge@almasi.co.ke"}</span>
                             </div>
                         </div>
                     </div>

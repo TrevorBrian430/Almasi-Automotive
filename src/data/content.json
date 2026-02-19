@@ -1,0 +1,73 @@
+{
+    "hero": {
+        "title": "The Art of \nAcquisition",
+        "subtitle": "We curate the world's most distinguished automobiles for East Africa's most discerning individuals. Direct imports. Exceptional financing. White-glove concierge.",
+        "image": "/images/landing-page/hero-bg.jpg"
+    },
+    "about": {
+        "title": "The Almasi Standard",
+        "story": "Almasi Automotive was founded on a simple premise: acquiring a luxury vehicle should be as exceptional as the vehicle itself. We don't just sell cars; we curate experiences.",
+        "stats": [
+            {
+                "label": "Vehicles Delivered",
+                "value": "500+"
+            },
+            {
+                "label": "Years Experience",
+                "value": "12"
+            },
+            {
+                "label": "Global Partners",
+                "value": "25"
+            }
+        ]
+    },
+    "contact": {
+        "phone": "+254 742 577 640",
+        "email": "concierge@almasi.co.ke",
+        "address": "Almasi Tower, Westlands, Nairobi"
+    },
+    "services": [
+        {
+            "title": "Authenticated",
+            "description": "Every vehicle undergoes a 200-point inspection. Full provenance documentation with verified service history.",
+            "icon": "Shield"
+        },
+        {
+            "title": "Direct Import",
+            "description": "Sourced directly from manufacturers and certified dealers worldwide. Fully cleared through KRA with transparent duty breakdown.",
+            "icon": "Truck"
+        },
+        {
+            "title": "White-Glove Service",
+            "description": "From selection to delivery, your personal concierge handles every detail. Financing, insurance, registration — handled.",
+            "icon": "HeartHandshake"
+        }
+    ],
+    "testimonials": [
+        {
+            "name": "James Mwangi",
+            "role": "CEO, Capital Holdings",
+            "quote": "Almasi made importing my G63 completely effortless. From sourcing to clearing at the port, every detail was handled with precision. The car arrived exactly as described.",
+            "rating": 5
+        },
+        {
+            "name": "Dr. Wanjiku Karanja",
+            "role": "Surgeon, Nairobi Hospital",
+            "quote": "I've purchased two vehicles through Almasi now. Their transparency on duty calculations and financing options is unmatched. Truly a white-glove experience.",
+            "rating": 5
+        },
+        {
+            "name": "Hassan Omar",
+            "role": "Property Developer",
+            "quote": "The team went above and beyond to find the exact spec Range Rover I wanted. Delivered to my doorstep in Mombasa with full documentation. Highly recommend.",
+            "rating": 5
+        },
+        {
+            "name": "Grace Atieno",
+            "role": "Country Director, Tech Corp",
+            "quote": "What sets Almasi apart is the after-sale relationship. They helped me with insurance, service scheduling, and even resale of my previous vehicle. True concierge service.",
+            "rating": 5
+        }
+    ]
+}

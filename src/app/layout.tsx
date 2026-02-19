@@ -39,11 +39,15 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({
+import { getContent } from "@/lib/actions";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { data: content } = await getContent();
+
   return (
     <html lang="en" className="dark">
       <body
@@ -53,7 +57,7 @@ export default function RootLayout({
           <Navbar />
           <main className="min-h-screen">{children}</main>
           <Footer />
-          <WhatsAppFloat />
+          <WhatsAppFloat phone={content?.contact?.phone} />
         </SmoothScrollProvider>
       </body>
     </html>

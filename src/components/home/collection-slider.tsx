@@ -1,17 +1,16 @@
 "use client";
 
-import { cars } from "@/data/cars";
-import { formatPrice } from "@/lib/utils";
+import { AlmasiCar } from "@/types/car";
 import { useUIStore } from "@/store/ui-store";
-import SectionHeading from "@/components/ui/section-heading";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { formatPrice } from "@/lib/utils";
+import SectionHeading from "@/components/ui/section-heading";
+import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
-const featured = cars.filter((c) => c.status === "Available").slice(0, 4);
-
-export default function CollectionSlider() {
+export default function CollectionSlider({ cars }: { cars: AlmasiCar[] }) {
+    const featured = cars.filter((c) => c.status === "Available").slice(0, 4);
     const { currency } = useUIStore();
 
     return (
