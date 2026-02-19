@@ -91,7 +91,7 @@ export default function VehiclePage() {
                                     Book a Private Viewing
                                 </GoldButton>
                                 <GoldButton
-                                    href={`https://wa.me/254700000000?text=${encodeURIComponent(
+                                    href={`https://wa.me/254742577640?text=${encodeURIComponent(
                                         `Hi, I'm interested in the ${car.name}. I'd like to learn more.`
                                     )}`}
                                     className="w-full border-green-500/30 text-green-400 hover:bg-green-500/10 hover:border-green-500/50 hover:shadow-[0_0_20px_rgba(34,197,94,0.1)]"

@@ -28,7 +28,7 @@ export default function ConciergeBar({ carName }: ConciergeBarProps) {
                         Book Viewing
                     </button>
                     <a
-                        href={`https://wa.me/254700000000?text=${whatsappMessage}`}
+                        href={`https://wa.me/254742577640?text=${whatsappMessage}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex-1 flex items-center justify-center gap-2 py-4 text-xs tracking-wider uppercase text-green-400 hover:text-green-300 transition-colors"

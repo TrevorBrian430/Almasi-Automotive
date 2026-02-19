@@ -149,7 +149,7 @@ export default function Hero() {
                         View Collection
                     </GoldButton>
                     <GoldButton
-                        href="https://wa.me/254700000000"
+                        href="https://wa.me/254742577640"
                         size="lg"
                         className="border-white/10 text-platinum hover:bg-white/5 hover:border-white/20 hover:shadow-none"
                     >
