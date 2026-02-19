@@ -137,7 +137,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                 </aside>
 
                 {/* Main */}
-                <main className="flex-1 min-h-[calc(100vh-5rem)] lg:ml-0">
+                <main className="flex-1 min-h-[calc(100vh-5rem)] lg:ml-0 min-w-0 overflow-x-hidden">
                     <div className="px-4 sm:px-6 lg:px-8 py-8 lg:py-12 mt-12 lg:mt-0">
                         {children}
                     </div>

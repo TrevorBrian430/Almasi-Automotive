@@ -147,7 +147,7 @@ export default function VehicleForm({ initialData }: { initialData?: AlmasiCar }
     // Style helpers
     const inputClass = "w-full bg-[#0A0A0A] border border-white/[0.08] rounded-sm px-4 py-2.5 text-sm text-platinum placeholder:text-white/20 focus:outline-none focus:border-gold/50 transition-colors";
     const labelClass = "block text-[10px] uppercase tracking-wider text-muted mb-1.5";
-    const sectionClass = "bg-card/40 border border-white/[0.08] p-6 rounded-sm space-y-6";
+    const sectionClass = "bg-card/40 border border-white/[0.08] p-4 sm:p-6 rounded-sm space-y-6";
 
     return (
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-5xl">
@@ -157,23 +157,24 @@ export default function VehicleForm({ initialData }: { initialData?: AlmasiCar }
                 </div>
             )}
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <Link href="/admin/fleet" className="text-sm text-muted hover:text-white transition-colors">
                     ← Back to Fleet
                 </Link>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     <Link
                         href="/admin/media"
                         target="_blank"
                         className="text-xs text-gold hover:underline flex items-center gap-1"
                     >
                         <ExternalLink className="w-3 h-3" />
-                        Open Media Manager
+                        <span className="hidden sm:inline">Open Media Manager</span>
+                        <span className="sm:hidden">Media</span>
                     </Link>
                     <button
                         type="submit"
                         disabled={isPending}
-                        className="px-6 py-2.5 bg-gold text-black text-sm font-medium tracking-wide uppercase rounded-sm hover:bg-gold/90 transition-all disabled:opacity-50"
+                        className="px-6 py-2.5 bg-gold text-black text-sm font-medium tracking-wide uppercase rounded-sm hover:bg-gold/90 transition-all disabled:opacity-50 whitespace-nowrap"
                     >
                         {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Vehicle"}
                     </button>

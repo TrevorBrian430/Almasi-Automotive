@@ -46,24 +46,24 @@ export default function AdminContentForm({ initialContent }: { initialContent: a
 
     const inputClass = "w-full bg-[#0A0A0A] border border-white/[0.08] rounded-sm px-4 py-2.5 text-sm text-platinum placeholder:text-white/20 focus:outline-none focus:border-gold/50 transition-colors";
     const labelClass = "block text-[10px] uppercase tracking-wider text-muted mb-1.5";
-    const sectionClass = "bg-card/40 border border-white/[0.08] p-6 rounded-sm space-y-6";
+    const sectionClass = "bg-card/40 border border-white/[0.08] p-4 sm:p-6 rounded-sm space-y-6";
     const tabClass = (tab: string) => `px-4 py-2 text-xs font-medium uppercase tracking-wider transition-colors ${activeTab === tab ? "bg-gold text-black" : "text-muted hover:text-platinum hover:bg-white/5"}`;
 
     return (
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-4xl">
-            <div className="flex items-center justify-between border-b border-white/[0.08]">
-                <div className="flex">
-                    <button type="button" onClick={() => setActiveTab("hero")} className={tabClass("hero")}>Hero Section</button>
-                    <button type="button" onClick={() => setActiveTab("about")} className={tabClass("about")}>About Us</button>
-                    <button type="button" onClick={() => setActiveTab("contact")} className={tabClass("contact")}>Contact Info</button>
-                    <button type="button" onClick={() => setActiveTab("services")} className={tabClass("services")}>Services</button>
-                    <button type="button" onClick={() => setActiveTab("testimonials")} className={tabClass("testimonials")}>Testimonials</button>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/[0.08] pb-4 md:pb-0">
+                <div className="flex overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-hide">
+                    <button type="button" onClick={() => setActiveTab("hero")} className={`whitespace-nowrap ${tabClass("hero")}`}>Hero Section</button>
+                    <button type="button" onClick={() => setActiveTab("about")} className={`whitespace-nowrap ${tabClass("about")}`}>About Us</button>
+                    <button type="button" onClick={() => setActiveTab("contact")} className={`whitespace-nowrap ${tabClass("contact")}`}>Contact Info</button>
+                    <button type="button" onClick={() => setActiveTab("services")} className={`whitespace-nowrap ${tabClass("services")}`}>Services</button>
+                    <button type="button" onClick={() => setActiveTab("testimonials")} className={`whitespace-nowrap ${tabClass("testimonials")}`}>Testimonials</button>
                 </div>
-                <div className="flex items-center gap-3 py-2">
+                <div className="flex items-center justify-end gap-3 w-full md:w-auto">
                     <Link
                         href="/admin/media"
                         target="_blank"
-                        className="text-xs text-gold hover:underline flex items-center gap-1 mr-4"
+                        className="text-xs text-gold hover:underline flex items-center gap-1 mr-2"
                     >
                         <ExternalLink className="w-3 h-3" />
                         Media Manager
@@ -71,7 +71,7 @@ export default function AdminContentForm({ initialContent }: { initialContent: a
                     <button
                         type="submit"
                         disabled={isPending}
-                        className="flex items-center gap-2 px-6 py-2 bg-gold text-black text-xs font-bold tracking-wider uppercase rounded-sm hover:bg-gold/90 transition-all disabled:opacity-50"
+                        className="flex items-center gap-2 px-6 py-2 bg-gold text-black text-xs font-bold tracking-wider uppercase rounded-sm hover:bg-gold/90 transition-all disabled:opacity-50 whitespace-nowrap"
                     >
                         {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                         Save Changes
