@@ -14,9 +14,11 @@ import { useAuthStore } from "@/store/auth-store";
 const sidebarLinks = [
     { href: "/admin", label: "Dashboard", icon: BarChart3 },
     { href: "/admin/workshop", label: "Workshop Bay", icon: LayoutGrid },
+    { href: "/admin/sourcing", label: "Sourcing Desk", icon: ClipboardList },
     { href: "/admin/bookings", label: "Bookings", icon: ClipboardList },
     { href: "/admin/customers", label: "Customers", icon: Users },
     { href: "/admin/fleet", label: "Fleet Manager", icon: LayoutGrid },
+    { href: "/admin/club", label: "Almasi Club", icon: Diamond },
     { href: "/admin/content", label: "Content Editor", icon: FileText },
     { href: "/admin/media", label: "Media Manager", icon: ImageIcon },
 ];

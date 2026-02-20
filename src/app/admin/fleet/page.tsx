@@ -25,13 +25,24 @@ export default async function AdminFleetPage() {
                         Manage your vehicle inventory.
                     </p>
                 </div>
-                <Link
-                    href="/admin/fleet/new"
-                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-gold text-black text-sm font-medium tracking-wide uppercase rounded-sm hover:bg-gold/90 transition-all"
-                >
-                    <Plus className="w-4 h-4" />
-                    Add Vehicle
-                </Link>
+                <div className="flex gap-3">
+                    <Link
+                        href="/admin/fleet/sell-back"
+                        className="inline-flex items-center gap-2 px-6 py-2.5 bg-white/5 border border-white/10 text-platinum text-sm font-medium tracking-wide uppercase rounded-sm hover:bg-white/10 hover:border-gold/30 hover:text-gold transition-all"
+                    >
+                        Sell Backs
+                        <span className="flex items-center justify-center bg-gold text-black text-xs font-bold w-5 h-5 rounded-sm">
+                            3
+                        </span>
+                    </Link>
+                    <Link
+                        href="/admin/fleet/new"
+                        className="inline-flex items-center gap-2 px-6 py-2.5 bg-gold text-black text-sm font-medium tracking-wide uppercase rounded-sm hover:bg-gold/90 transition-all"
+                    >
+                        <Plus className="w-4 h-4" />
+                        Add Vehicle
+                    </Link>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">

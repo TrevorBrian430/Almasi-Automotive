@@ -4,7 +4,7 @@ import { useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { WorkshopVehicle, WorkshopStatus } from "@/types/service";
 import { useServiceStore } from "@/store/service-store";
-import { X, Phone, User, Wrench, Calendar, ArrowRight, ArrowLeft } from "lucide-react";
+import { X, Phone, User, Wrench, Calendar, ArrowRight, ArrowLeft, Camera, Video, Upload } from "lucide-react";
 import GoldButton from "@/components/ui/gold-button";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -159,6 +159,42 @@ export default function VehicleCardModal({ vehicle, onClose }: VehicleCardModalP
                                     </p>
                                 </div>
                             </div>
+
+                            {/* Live Service Bay Features (Radical Transparency) */}
+                            {(vehicle.status === "In Bay" || vehicle.status === "Repairing") && (
+                                <div className="space-y-4 pt-4 border-t border-white/[0.06]">
+                                    <p className="text-[10px] tracking-[0.2em] uppercase text-gold mb-2 flex items-center gap-1.5">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                                        Live Service Bay Active
+                                    </p>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        {/* Tech Cam */}
+                                        <div className="bg-white/[0.02] border border-white/[0.06] rounded-sm p-4 hover:border-gold/30 transition-colors group cursor-pointer">
+                                            <div className="flex items-center gap-2 mb-2 border-b border-white/[0.06] pb-2">
+                                                <Camera className="w-4 h-4 text-platinum" />
+                                                <p className="text-xs text-platinum font-medium">Tech Cam Snap</p>
+                                            </div>
+                                            <p className="text-[10px] text-muted mb-3 leading-relaxed">Upload a live photo of the current repair stage directly to the client's feed.</p>
+                                            <button className="w-full flex items-center justify-center gap-2 py-2 bg-white/5 border border-white/10 rounded-sm text-xs text-platinum group-hover:bg-gold group-hover:text-black group-hover:border-gold transition-all">
+                                                <Upload className="w-3 h-3" /> Select Photo
+                                            </button>
+                                        </div>
+
+                                        {/* Visual Health Check */}
+                                        <div className="bg-white/[0.02] border border-white/[0.06] rounded-sm p-4 hover:border-gold/30 transition-colors group cursor-pointer">
+                                            <div className="flex items-center gap-2 mb-2 border-b border-white/[0.06] pb-2">
+                                                <Video className="w-4 h-4 text-platinum" />
+                                                <p className="text-xs text-platinum font-medium">Visual Health Check</p>
+                                            </div>
+                                            <p className="text-[10px] text-muted mb-3 leading-relaxed">Record a video clip explaining worn parts for instantaneous client approval.</p>
+                                            <button className="w-full flex items-center justify-center gap-2 py-2 bg-white/5 border border-white/10 rounded-sm text-xs text-platinum group-hover:bg-gold group-hover:text-black group-hover:border-gold transition-all">
+                                                <Upload className="w-3 h-3" /> Select Video
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Status flow */}
                             <div>

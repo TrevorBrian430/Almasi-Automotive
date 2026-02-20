@@ -26,6 +26,9 @@ export interface AlmasiCar {
         hero: string;
         gallery: string[];
     };
+    sounds?: {
+        engine_start?: string;
+    };
     documents?: {
         id: string;
         title: string;

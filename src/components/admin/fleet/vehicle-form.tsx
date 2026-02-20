@@ -38,6 +38,25 @@ const vehicleSchema = z.object({
         hero: z.string().min(1, "Hero image is required"),
         gallery: z.array(z.string()),
     }),
+    sounds: z.object({
+        engine_start: z.string().optional(),
+    }).optional(),
+    valuation: z.object({
+        currency: z.enum(["KES", "USD"]),
+        price: z.coerce.number(),
+        purchasePrice: z.coerce.number(),
+        lastUpdated: z.string(),
+        trend: z.coerce.number(),
+        history: z.array(z.object({ date: z.string(), value: z.coerce.number() })).default([]),
+    }).optional(),
+    documents: z.array(z.object({
+        id: z.string(),
+        title: z.string().min(1),
+        type: z.enum(["Logbook", "Insurance", "Inspection", "Import", "Invoice", "Other"]),
+        date: z.string(),
+        status: z.enum(["Verified", "Pending", "Expired"]),
+        url: z.string().optional()
+    })).default([]),
 });
 
 type VehicleFormValues = z.infer<typeof vehicleSchema>;
@@ -69,12 +88,16 @@ export default function VehicleForm({ initialData }: { initialData?: AlmasiCar }
             },
             features: [""],
             images: { hero: "", gallery: [""] },
+            sounds: { engine_start: "" },
+            valuation: undefined,
+            documents: [],
         },
     });
 
-    // Watch arrays for rendering
     const features = form.watch("features");
     const gallery = form.watch("images.gallery");
+    const documents = form.watch("documents") || [];
+    const valuation = form.watch("valuation");
 
     // Dynamic field handling helpers
     const addFeature = () => {
@@ -109,6 +132,29 @@ export default function VehicleForm({ initialData }: { initialData?: AlmasiCar }
         const newGallery = [...current];
         newGallery[index] = value;
         form.setValue("images.gallery", newGallery);
+    };
+
+    const addDocument = () => {
+        const current = form.getValues("documents") || [];
+        form.setValue("documents", [...current, {
+            id: Math.random().toString(36).substr(2, 9),
+            title: "",
+            type: "Logbook",
+            date: new Date().toISOString().split('T')[0],
+            status: "Pending",
+            url: ""
+        }]);
+    };
+
+    const removeDocument = (index: number) => {
+        const current = form.getValues("documents") || [];
+        form.setValue("documents", current.filter((_, i) => i !== index));
+    };
+
+    const updateDocument = (index: number, field: string, value: any) => {
+        const current = [...(form.getValues("documents") || [])];
+        current[index] = { ...current[index], [field]: value } as any;
+        form.setValue("documents", current);
     };
 
     // Auto-generate slug from name
@@ -266,6 +312,56 @@ export default function VehicleForm({ initialData }: { initialData?: AlmasiCar }
                 </div>
             </div>
 
+            {/* Valuation Engine */}
+            <div className={sectionClass}>
+                <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
+                    <h3 className="text-lg text-platinum font-medium">
+                        Valuation Engine
+                    </h3>
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            checked={!!valuation}
+                            onChange={(e) => {
+                                if (e.target.checked) {
+                                    form.setValue("valuation", {
+                                        currency: "KES", price: 0, purchasePrice: 0, lastUpdated: new Date().toISOString().split('T')[0], trend: 0, history: []
+                                    });
+                                } else {
+                                    form.setValue("valuation", undefined);
+                                }
+                            }}
+                            className="w-4 h-4 rounded-sm border-white/20 bg-transparent text-gold focus:ring-gold"
+                        />
+                        <span className="text-xs text-muted">Enable Tracking</span>
+                    </div>
+                </div>
+
+                {valuation && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
+                        <div>
+                            <label className={labelClass}>Currency</label>
+                            <select {...form.register("valuation.currency")} className={inputClass}>
+                                <option value="KES">KES</option>
+                                <option value="USD">USD</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className={labelClass}>Purchase Price</label>
+                            <input type="number" {...form.register("valuation.purchasePrice")} className={inputClass} />
+                        </div>
+                        <div>
+                            <label className={labelClass}>Current Estimated Value</label>
+                            <input type="number" {...form.register("valuation.price")} className={inputClass} />
+                        </div>
+                        <div>
+                            <label className={labelClass}>Appreciation Trend (%)</label>
+                            <input type="number" step="0.1" {...form.register("valuation.trend")} className={inputClass} />
+                        </div>
+                    </div>
+                )}
+            </div>
+
             {/* Specs */}
             <div className={sectionClass}>
                 <h3 className="text-lg text-platinum font-medium border-b border-white/[0.08] pb-4">
@@ -314,6 +410,13 @@ export default function VehicleForm({ initialData }: { initialData?: AlmasiCar }
                     <label className={labelClass}>Hero Image URL</label>
                     <div className="flex gap-2">
                         <input {...form.register("images.hero")} className={inputClass} placeholder="/uploads/..." />
+                    </div>
+                </div>
+
+                <div>
+                    <label className={labelClass}>Engine Start-Up Sound URL</label>
+                    <div className="flex gap-2">
+                        <input {...form.register("sounds.engine_start")} className={inputClass} placeholder="/uploads/audio.mp3" />
                     </div>
                 </div>
 
@@ -379,6 +482,93 @@ export default function VehicleForm({ initialData }: { initialData?: AlmasiCar }
                 >
                     <Plus className="w-3 h-3" /> Add Feature
                 </button>
+            </div>
+
+            {/* Digital Glovebox (Documents) */}
+            <div className={sectionClass}>
+                <h3 className="text-lg text-platinum font-medium border-b border-white/[0.08] pb-4 flex justify-between items-center">
+                    <span>Digital Glovebox</span>
+                    <span className="text-xs text-muted font-normal">Manage ownership documents</span>
+                </h3>
+
+                <div className="space-y-4">
+                    {documents.map((doc, index) => (
+                        <div key={doc.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 bg-white/[0.02] border border-white/[0.05] rounded-sm relative group">
+                            <div className="md:col-span-3">
+                                <label className={labelClass}>Title</label>
+                                <input
+                                    value={doc.title}
+                                    onChange={(e) => updateDocument(index, "title", e.target.value)}
+                                    className={inputClass}
+                                    placeholder="e.g., Original Logbook"
+                                />
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className={labelClass}>Type</label>
+                                <select
+                                    value={doc.type}
+                                    onChange={(e) => updateDocument(index, "type", e.target.value)}
+                                    className={inputClass}
+                                >
+                                    <option value="Logbook">Logbook</option>
+                                    <option value="Insurance">Insurance</option>
+                                    <option value="Inspection">Inspection</option>
+                                    <option value="Import">Import</option>
+                                    <option value="Invoice">Invoice</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className={labelClass}>Date</label>
+                                <input
+                                    type="date"
+                                    value={doc.date}
+                                    onChange={(e) => updateDocument(index, "date", e.target.value)}
+                                    className={inputClass}
+                                />
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className={labelClass}>Status</label>
+                                <select
+                                    value={doc.status}
+                                    onChange={(e) => updateDocument(index, "status", e.target.value)}
+                                    className={inputClass}
+                                >
+                                    <option value="Verified">Verified</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Expired">Expired</option>
+                                </select>
+                            </div>
+                            <div className="md:col-span-3">
+                                <label className={labelClass}>Document URL</label>
+                                <div className="flex gap-2">
+                                    <input
+                                        value={doc.url || ""}
+                                        onChange={(e) => updateDocument(index, "url", e.target.value)}
+                                        className={inputClass}
+                                        placeholder="/uploads/doc.pdf"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => removeDocument(index)}
+                                        className="p-2 text-muted hover:text-red-400 transition-colors shrink-0 bg-black/20 rounded-sm"
+                                        title="Remove Document"
+                                    >
+                                        <X className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+
+                    <button
+                        type="button"
+                        onClick={addDocument}
+                        className="text-xs text-gold hover:underline flex items-center gap-1 mt-2"
+                    >
+                        <Plus className="w-3 h-3" /> Add Document
+                    </button>
+                </div>
             </div>
         </form>
     );
