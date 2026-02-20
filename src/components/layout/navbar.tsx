@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useUIStore } from "@/store/ui-store";
 import { useAuthStore } from "@/store/auth-store";
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,6 +32,8 @@ export default function Navbar() {
     }, [hydrate]);
 
     const dashboardHref = user?.role === "admin" ? "/admin" : "/dashboard";
+    const pathname = usePathname();
+    if (pathname?.startsWith("/admin") || pathname?.startsWith("/dashboard")) return null;
 
     return (
         <>

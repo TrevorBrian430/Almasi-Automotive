@@ -148,26 +148,26 @@ export default function AlmasiClubAdminPage() {
                 <div className="space-y-4">
                     {partnerPerks.map((perk) => (
                         <div key={perk.id} className="bg-[#0A0A0A] border border-white/[0.08] rounded-sm p-6 flex flex-col md:flex-row gap-6 items-center justify-between hover:border-white/20 transition-all">
-                            <div className="flex items-center gap-6">
+                            <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 sm:gap-6 w-full">
                                 <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
                                     <ShieldCheck className="w-6 h-6 text-gold/60" />
                                 </div>
-                                <div>
+                                <div className="flex-1 min-w-0">
                                     <p className="text-[10px] text-gold tracking-widest uppercase mb-1">{perk.category}</p>
                                     <h3 className="text-xl text-platinum font-medium">{perk.partner}</h3>
                                     <p className="text-muted text-sm mt-1">{perk.perk}</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-6 w-full md:w-auto mt-4 md:mt-0 pt-4 md:pt-0 border-t border-white/[0.06] md:border-t-0">
-                                <div className="text-center px-6 md:border-r border-white/[0.06]">
+                            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 w-full md:w-auto mt-4 md:mt-0 pt-4 md:pt-0 border-t border-white/[0.06] md:border-t-0">
+                                <div className="text-center w-full md:w-auto px-6 border-b md:border-b-0 md:border-r border-white/[0.06] pb-4 md:pb-0">
                                     <p className="text-[10px] text-muted tracking-widest uppercase mb-1">Uses This Month</p>
                                     <p className="text-xl text-platinum">{perk.activeUsers}</p>
                                 </div>
-                                <div className="flex gap-2">
-                                    <button className="p-2 text-muted hover:text-white hover:bg-white/5 rounded-sm transition-colors">
+                                <div className="flex gap-2 w-full md:w-auto">
+                                    <button className="flex-1 md:flex-none py-2 md:p-2 text-muted hover:text-white bg-white/5 md:bg-transparent hover:bg-white/10 rounded-sm transition-colors flex justify-center items-center">
                                         <Edit2 className="w-4 h-4" />
                                     </button>
-                                    <button className="p-2 text-muted hover:text-red-400 hover:bg-white/5 rounded-sm transition-colors">
+                                    <button className="flex-1 md:flex-none py-2 md:p-2 text-muted hover:text-red-400 bg-white/5 md:bg-transparent hover:bg-white/10 rounded-sm transition-colors flex justify-center items-center">
                                         <Trash2 className="w-4 h-4" />
                                     </button>
                                 </div>

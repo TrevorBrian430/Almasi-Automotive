@@ -47,9 +47,9 @@ function AdminShell({ children }: { children: React.ReactNode }) {
     };
 
     return (
-        <div className="min-h-screen bg-midnight pt-16 sm:pt-20">
+        <div className="min-h-screen bg-midnight">
             {/* Mobile top bar */}
-            <div className="lg:hidden fixed top-16 sm:top-20 left-0 right-0 z-40 h-12 bg-[#070707]/95 backdrop-blur-sm border-b border-white/[0.06] flex items-center px-4 gap-3">
+            <div className="lg:hidden fixed top-0 left-0 right-0 z-40 h-16 bg-[#070707]/95 backdrop-blur-sm border-b border-white/[0.06] flex items-center px-4 gap-3">
                 <button
                     onClick={() => setSidebarOpen(!sidebarOpen)}
                     className="w-9 h-9 flex items-center justify-center bg-card border border-white/[0.08] rounded-sm text-muted hover:text-gold transition-colors"
@@ -72,7 +72,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                 {/* Sidebar */}
                 <aside
                     className={cn(
-                        "fixed lg:sticky top-20 left-0 h-[calc(100vh-5rem)] w-64 bg-[#070707] border-r border-white/[0.06] flex flex-col z-30 transition-transform duration-300 lg:translate-x-0",
+                        "fixed lg:sticky top-16 lg:top-20 left-0 h-[calc(100dvh-4rem)] lg:h-[calc(100vh-5rem)] w-64 bg-[#070707] border-r border-white/[0.06] flex flex-col z-30 transition-transform duration-300 lg:translate-x-0",
                         sidebarOpen ? "translate-x-0" : "-translate-x-full"
                     )}
                 >

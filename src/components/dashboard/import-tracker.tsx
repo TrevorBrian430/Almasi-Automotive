@@ -26,6 +26,7 @@ interface ImportTrackerProps {
             eta: string;
         };
     };
+    actions?: React.ReactNode;
 }
 
 const icons = {
@@ -36,12 +37,12 @@ const icons = {
     5: Truck,
 };
 
-export default function ImportTracker({ request }: ImportTrackerProps) {
+export default function ImportTracker({ request, actions }: ImportTrackerProps) {
     const { tracker, detectedSpec } = request;
     const currentStageIndex = tracker.currentStage;
 
     return (
-        <div className="relative group overflow-hidden rounded-sm border border-white/10 bg-[#0A0A0A]">
+        <div className="relative group overflow-hidden rounded-sm border border-white/10 bg-[#0A0A0A] pb-16 lg:pb-20">
             {/* Premium Background Effects */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
             <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-[100px] rounded-full pointer-events-none" />
@@ -64,26 +65,33 @@ export default function ImportTracker({ request }: ImportTrackerProps) {
                         </h3>
                     </div>
 
-                    <div className="flex gap-6 text-right">
-                        <div>
-                            <p className="text-[9px] text-muted uppercase tracking-wider mb-0.5">Estimated Arrival</p>
-                            <p className="text-lg text-gold font-light" style={{ fontFamily: "var(--font-heading)" }}>
-                                {tracker.eta}
-                            </p>
-                        </div>
-                        {tracker.stages[1].vessel && (
-                            <div className="hidden sm:block">
-                                <p className="text-[9px] text-muted uppercase tracking-wider mb-0.5">Vessel Name</p>
-                                <p className="text-lg text-platinum font-light" style={{ fontFamily: "var(--font-heading)" }}>
-                                    {tracker.stages[1].vessel}
-                                </p>
+                    <div className="flex flex-col sm:flex-row sm:items-end gap-6 text-right">
+                        {actions && (
+                            <div className="flex flex-col sm:flex-row gap-2 mb-2 sm:mb-0 sm:mr-4">
+                                {actions}
                             </div>
                         )}
+                        <div className="flex gap-6 justify-end">
+                            <div>
+                                <p className="text-[9px] text-muted uppercase tracking-wider mb-0.5">Estimated Arrival</p>
+                                <p className="text-lg text-gold font-light" style={{ fontFamily: "var(--font-heading)" }}>
+                                    {tracker.eta}
+                                </p>
+                            </div>
+                            {tracker.stages[1].vessel && (
+                                <div className="hidden sm:block">
+                                    <p className="text-[9px] text-muted uppercase tracking-wider mb-0.5">Vessel Name</p>
+                                    <p className="text-lg text-platinum font-light" style={{ fontFamily: "var(--font-heading)" }}>
+                                        {tracker.stages[1].vessel}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 
                 {/* Progress Stepper */}
-                <div className="relative mx-2 sm:mx-4">
+                <div className="relative mx-2 sm:mx-8 md:mx-16 lg:mx-20">
                     {/* Background Line */}
                     <div className="absolute top-[19px] left-0 w-full h-[1px] bg-white/10 hidden sm:block" />
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { CheckCircle2, Circle, Clock, MapPin, Search, ChevronRight, Plane, Ship, Anchor, Truck } from "lucide-react";
+import ImportTracker from "@/components/dashboard/import-tracker";
 
 export default function SourcingDeskPage() {
     const [activeTab, setActiveTab] = useState<"requests" | "tracker">("requests");
@@ -98,7 +99,7 @@ export default function SourcingDeskPage() {
                     {sourcingRequests.map((req) => (
                         <div key={req.id} className="bg-[#0A0A0A] border border-white/[0.08] rounded-sm p-6 flex flex-col md:flex-row gap-6 hover:border-white/20 transition-all">
                             {/* Visual Match */}
-                            <div className="md:w-64 shrink-0 space-y-3 border-r border-white/[0.08] pr-6">
+                            <div className="w-full md:w-64 shrink-0 space-y-3 md:border-r border-b md:border-b-0 border-white/[0.08] pb-6 md:pb-0 md:pr-6">
                                 <p className="text-[10px] text-muted tracking-widest uppercase">Target Image</p>
                                 <div className="aspect-[4/3] bg-card rounded-sm border border-white/5 flex items-center justify-center relative overflow-hidden">
                                     {req.sourceImage ? (
@@ -124,10 +125,12 @@ export default function SourcingDeskPage() {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-4 bg-card/40 border border-white/[0.06] rounded-sm p-3">
-                                    <div className="w-2 h-2 rounded-full bg-gold animate-pulse shrink-0" />
-                                    <p className="text-sm text-platinum flex-1">Status: <span className="text-gold">{req.status}</span></p>
-                                    <button className="text-xs px-4 py-2 bg-white/5 hover:bg-white/10 rounded-sm text-platinum transition-colors">
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 bg-card/40 border border-white/[0.06] rounded-sm p-3">
+                                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                                        <div className="w-2 h-2 rounded-full bg-gold animate-pulse shrink-0" />
+                                        <p className="text-sm text-platinum truncate">Status: <span className="text-gold">{req.status}</span></p>
+                                    </div>
+                                    <button className="w-full sm:w-auto text-xs px-4 py-2 bg-white/5 hover:bg-white/10 rounded-sm text-platinum transition-colors whitespace-nowrap">
                                         Update Status
                                     </button>
                                 </div>
@@ -139,64 +142,53 @@ export default function SourcingDeskPage() {
 
             {/* Content: Live Import Tracker */}
             {activeTab === "tracker" && (
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                    {activeImports.map((trk) => (
-                        <div key={trk.id} className="bg-[#0A0A0A] border border-white/[0.08] rounded-sm p-6 hover:border-gold/30 transition-colors">
-                            <div className="flex justify-between items-start mb-6">
-                                <div>
-                                    <p className="text-[10px] text-muted tracking-widest uppercase mb-1">{trk.id} • {trk.customer}</p>
-                                    <h3 className="text-lg text-platinum font-medium">{trk.vehicle}</h3>
-                                </div>
-                                <button className="text-xs px-3 py-1.5 bg-gold text-black uppercase tracking-wider font-semibold rounded-sm hover:bg-gold/90 transition-colors">
-                                    Advance Stage
-                                </button>
+                <div className="grid grid-cols-1 gap-6">
+                    {activeImports.map((trk) => {
+                        // Parse the vehicle string for the ImportTracker props
+                        const parts = trk.vehicle.split(" ");
+                        let year = 2024;
+                        if (!isNaN(parseInt(parts[0]))) {
+                            year = parseInt(parts[0]);
+                            parts.shift();
+                        }
+                        const make = parts[0];
+                        const model = parts.slice(1).join(" ");
+
+                        return (
+                            <div key={trk.id} className="relative">
+                                <ImportTracker
+                                    actions={
+                                        <>
+                                            <button className="w-full sm:w-auto text-xs px-3 py-2 sm:py-1.5 bg-white/5 border border-white/10 text-platinum uppercase tracking-wider font-semibold rounded-sm hover:bg-white/10 transition-colors">
+                                                Edit Schedule
+                                            </button>
+                                            <button className="w-full sm:w-auto text-xs px-3 py-2 sm:py-1.5 bg-gold text-black uppercase tracking-wider font-semibold rounded-sm hover:bg-gold/90 transition-colors">
+                                                Advance Stage
+                                            </button>
+                                        </>
+                                    }
+                                    request={{
+                                        id: trk.id,
+                                        detectedSpec: {
+                                            make,
+                                            model,
+                                            year
+                                        },
+                                        tracker: {
+                                            currentStage: trk.currentStage,
+                                            eta: "Next Week",
+                                            stages: trk.stages.map((s, idx) => ({
+                                                id: idx + 1,
+                                                label: s.title,
+                                                location: idx < trk.currentStage ? "Completed" : "Pending",
+                                                date: s.date
+                                            }))
+                                        }
+                                    }}
+                                />
                             </div>
-
-                            {/* Pizza Tracker Timeline */}
-                            <div className="relative pl-6 space-y-6 before:absolute before:left-[11px] before:top-2 before:bottom-4 before:w-[2px] before:bg-white/[0.06]">
-                                {trk.stages.map((stage, idx) => {
-                                    const isCompleted = idx < trk.currentStage - 1;
-                                    const isActive = idx === trk.currentStage - 1;
-                                    const Icon = stage.icon;
-
-                                    return (
-                                        <div key={idx} className={`relative flex items-center gap-4 ${isCompleted || isActive ? "opacity-100" : "opacity-40"}`}>
-                                            {/* Node */}
-                                            <div className={`absolute -left-6 w-6 h-6 rounded-full flex items-center justify-center shrink-0 border-2 z-10 ${isActive ? "bg-gold border-gold text-black shadow-[0_0_15px_rgba(201,160,80,0.4)]" :
-                                                    isCompleted ? "bg-[#0A0A0A] border-gold text-gold" :
-                                                        "bg-[#0A0A0A] border-white/20 text-muted"
-                                                }`}>
-                                                {isCompleted ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Icon className="w-3 h-3" />}
-                                            </div>
-
-                                            <div>
-                                                <p className={`text-sm font-medium ${isActive ? "text-gold" : "text-platinum"}`}>
-                                                    {stage.title}
-                                                </p>
-                                                {stage.date && (
-                                                    <p className="text-xs text-muted mt-0.5">{stage.date}</p>
-                                                )}
-                                            </div>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-
-                            {/* Map Mock/Location Data */}
-                            <div className="mt-8 bg-card/40 border border-white/[0.06] rounded-sm p-4 flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center shrink-0 border border-blue-500/20">
-                                    <MapPin className="w-4 h-4 text-blue-400" />
-                                </div>
-                                <div className="flex-1">
-                                    <p className="text-xs text-muted">Current Beacon Signal</p>
-                                    <p className="text-sm text-platinum">Gulf of Aden (Lat 12.04, Long 45.02)</p>
-                                </div>
-                                <button className="text-xs text-gold border-b border-gold/30 hover:border-gold transition-colors">
-                                    Update Map
-                                </button>
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
         </div>

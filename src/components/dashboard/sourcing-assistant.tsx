@@ -16,11 +16,13 @@ export default function SourcingAssistant() {
         ]
     });
 
-    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const chatContainerRef = useRef<HTMLDivElement>(null);
 
-    // Auto-scroll to bottom of chat
+    // Auto-scroll chat container to bottom
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
     }, [messages]);
 
     return (
@@ -41,7 +43,10 @@ export default function SourcingAssistant() {
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-[url('/noise.png')] bg-repeat opacity-95">
+            <div
+                ref={chatContainerRef}
+                className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-[url('/noise.png')] bg-repeat opacity-95"
+            >
                 {messages.map((m: Message) => (
                     <div
                         key={m.id}
@@ -81,7 +86,6 @@ export default function SourcingAssistant() {
                         {error.message || "An error occurred connecting to the Concierge."}
                     </div>
                 )}
-                <div ref={messagesEndRef} />
             </div>
 
             {/* Input Area */}
