@@ -40,6 +40,7 @@ export const metadata: Metadata = {
 };
 
 import { getContent } from "@/lib/actions";
+import ConditionalLayout from "@/components/layout/conditional-layout";
 
 export default async function RootLayout({
   children,
@@ -56,8 +57,10 @@ export default async function RootLayout({
         <SmoothScrollProvider>
           <Navbar />
           <main className="min-h-screen">{children}</main>
-          <Footer />
-          <WhatsAppFloat phone={content?.contact?.phone} />
+          <ConditionalLayout>
+            <Footer />
+            <WhatsAppFloat phone={content?.contact?.phone} />
+          </ConditionalLayout>
         </SmoothScrollProvider>
       </body>
     </html>

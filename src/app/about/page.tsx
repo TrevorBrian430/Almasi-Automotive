@@ -33,7 +33,7 @@ const values = [
     {
         icon: HeartHandshake,
         title: "Relationship",
-        desc: "We don't just sell cars — we build lasting partnerships with our clients.",
+        desc: "We don't just sell cars, we build lasting partnerships with our clients.",
     },
     {
         icon: Award,
@@ -87,7 +87,7 @@ export default function AboutPage() {
                     >
                         Born in Nairobi, Almasi Automotive was founded with a singular vision: to
                         bring the world&apos;s finest automobiles to East Africa&apos;s most discerning
-                        individuals — with integrity, transparency, and unmatched service.
+                        individuals, with integrity, transparency, and unmatched service.
                     </motion.p>
                 </div>
             </section>

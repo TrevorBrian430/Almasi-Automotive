@@ -68,7 +68,7 @@ export default function ServiceBookingForm() {
                 id="booking"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-card/60 border border-white/[0.06] rounded-sm p-6 sm:p-10 text-center max-w-2xl mx-auto"
+                className="bg-card/60 border border-white/[0.06] rounded-sm p-6 sm:p-10 max-w-2xl"
             >
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full border border-gold/20 bg-gold/[0.05] mb-6">
                     <CheckCircle className="w-8 h-8 text-gold" strokeWidth={1.2} />
@@ -96,7 +96,7 @@ export default function ServiceBookingForm() {
     }
 
     return (
-        <div id="booking" className="max-w-3xl mx-auto">
+        <div id="booking" className="max-w-3xl">
             <div className="flex items-center gap-3 mb-6">
                 <Wrench className="w-5 h-5 text-gold" strokeWidth={1.2} />
                 <h2

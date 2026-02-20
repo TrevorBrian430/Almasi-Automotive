@@ -235,7 +235,7 @@ export default function CompareClient({ cars }: { cars: AlmasiCar[] }) {
                                             <td className="p-4 text-xs text-muted">{row.label}</td>
                                             {selected.map((car) => (
                                                 <td key={car.id} className="p-4 text-sm text-platinum/80">
-                                                    {row.format?.(car) ?? "—"}
+                                                    {row.format?.(car) ?? "-"}
                                                 </td>
                                             ))}
                                         </tr>

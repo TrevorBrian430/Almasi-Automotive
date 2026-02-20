@@ -33,8 +33,8 @@ export default function AdminBookingsPage() {
             type: b.serviceCategory,
             date: b.preferredDate,
             status: b.status,
-            customer: "—",
-            contact: "—",
+            customer: "-",
+            contact: "-",
             concierge: b.requiresConcierge,
         })),
     ];
@@ -114,11 +114,11 @@ export default function AdminBookingsPage() {
                                         <span className="text-muted">{item.date}</span>
                                     </div>
                                 </div>
-                                {item.customer !== "—" && (
+                                {item.customer !== "-" && (
                                     <div className="flex items-center gap-2 pt-2 border-t border-white/[0.04]">
                                         <User className="w-3 h-3 text-muted/40" strokeWidth={1.5} />
                                         <span className="text-xs text-muted">{item.customer}</span>
-                                        {item.contact !== "—" && (
+                                        {item.contact !== "-" && (
                                             <>
                                                 <Phone className="w-3 h-3 text-muted/40 ml-2" strokeWidth={1.5} />
                                                 <span className="text-xs text-muted">{item.contact}</span>

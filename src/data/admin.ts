@@ -142,6 +142,23 @@ export const vehicleHealth = [
         serviceStatus: "good" as const,
         mileage: 28500,
         imageSlug: "2024-range-rover-autobiography",
+        documents: [
+            { id: "d1", title: "Logbook (KDH 456B)", type: "Logbook" as const, date: "2024-01-15", status: "Verified" as const },
+            { id: "d2", title: "Comprehensive Insurance", type: "Insurance" as const, date: "2025-01-10", status: "Verified" as const },
+            { id: "d3", title: "KRA Import Entry", type: "Import" as const, date: "2023-12-20", status: "Verified" as const },
+        ],
+        valuation: {
+            currency: "KES" as const,
+            price: 34500000,
+            purchasePrice: 32000000,
+            lastUpdated: "2026-02-18",
+            trend: 7.8,
+            history: [
+                { date: "2025-08-01", value: 32000000 },
+                { date: "2025-11-01", value: 33200000 },
+                { date: "2026-02-01", value: 34500000 },
+            ],
+        },
     },
     {
         id: "vh2",
@@ -152,6 +169,22 @@ export const vehicleHealth = [
         serviceStatus: "due-soon" as const,
         mileage: 31200,
         imageSlug: "2024-mercedes-g63-amg",
+        documents: [
+            { id: "d4", title: "Logbook (KDJ 789C)", type: "Logbook" as const, date: "2024-03-22", status: "Verified" as const },
+            { id: "d5", title: "Insurance Policy", type: "Insurance" as const, date: "2025-03-20", status: "Verified" as const },
+        ],
+        valuation: {
+            currency: "KES" as const,
+            price: 42000000,
+            purchasePrice: 38500000,
+            lastUpdated: "2026-02-19",
+            trend: 9.1,
+            history: [
+                { date: "2025-08-01", value: 38500000 },
+                { date: "2025-11-01", value: 40100000 },
+                { date: "2026-02-01", value: 42000000 },
+            ],
+        },
     },
     {
         id: "vh3",
@@ -159,8 +192,101 @@ export const vehicleHealth = [
         registration: "KDK 321D",
         lastService: "2025-12-20",
         nextService: "2026-02-25",
-        serviceStatus: "overdue" as const,
+        serviceStatus: "in-progress" as const, // Changed to in-progress for demo
         mileage: 15800,
         imageSlug: "2024-porsche-cayenne-turbo-gt",
+        documents: [
+            { id: "d6", title: "Logbook (KDK 321D)", type: "Logbook" as const, date: "2024-05-10", status: "Verified" as const },
+            { id: "d7", title: "Insurance Overlay", type: "Insurance" as const, date: "2025-05-01", status: "Verified" as const },
+            { id: "d8", title: "Porsche Approved Warranty", type: "Other" as const, date: "2024-05-10", status: "Verified" as const },
+        ],
+        valuation: {
+            currency: "KES" as const,
+            price: 28500000,
+            purchasePrice: 29800000,
+            lastUpdated: "2026-02-15",
+            trend: -4.3,
+            history: [
+                { date: "2025-08-01", value: 29800000 },
+                { date: "2025-11-01", value: 29100000 },
+                { date: "2026-02-01", value: 28500000 },
+            ],
+        },
     },
+];
+
+export const liveServiceUpdates = {
+    vehicleId: "vh3",
+    advisor: "James Mwangi",
+    bay: "Bay 04",
+    startTime: "08:30 AM",
+    updates: [
+        {
+            id: "u1",
+            type: "status",
+            title: "Service Started",
+            description: "Vehicle initialized on Bay 04. Protective covers installed.",
+            timestamp: "08:45 AM",
+            media: null
+        },
+        {
+            id: "u2",
+            type: "photo",
+            title: "Oil Drainage",
+            description: "Old oil drained. Filter removed for inspection.",
+            timestamp: "09:15 AM",
+            media: "/service/oil-change.jpg" // We'll use a placeholder or handle missing image gracefully
+        },
+        {
+            id: "u3",
+            type: "video",
+            title: "Brake Pad Inspection",
+            description: "Front brake pads are below 3mm. Recommend replacement.",
+            timestamp: "09:45 AM",
+            media: "/service/brake-check.mp4",
+            comparison: "/service/new-brake-pad.jpg",
+            actionRequired: true,
+            status: "pending" // pending, approved, declined
+        },
+        {
+            id: "u4",
+            type: "status",
+            title: "Scheduled Maintenance",
+            description: "Proceeding with standard 15,000km checks.",
+            timestamp: "10:00 AM",
+            media: null
+        }
+    ]
+};
+
+export const sourcingRequests = [
+    {
+        id: "sr1",
+        status: "Importing",
+        image: "/cars/2024-porsche-911-gt3-rs/hero.jpg", // Using existing image for mock
+        detectedSpec: {
+            make: "Porsche",
+            model: "911 GT3 RS",
+            year: 2024,
+            probability: 98.5
+        },
+        tracker: {
+            currentStage: 3, // Arrived Mombasa
+            stages: [
+                { id: 1, label: "Verified (UK)", date: "2026-01-15", location: "London, UK" },
+                { id: 2, label: "Loaded", date: "2026-01-20", location: "Southampton Port", vessel: "Glovis Star" },
+                { id: 3, label: "Arrived", date: "2026-02-18", location: "Mombasa, KE" },
+                { id: 4, label: "Customs", date: null, location: "Mombasa, KE" },
+                { id: 5, label: "En Route", date: null, location: "Nairobi, KE" }
+            ],
+            eta: "2026-02-25"
+        }
+    },
+    {
+        id: "sr2",
+        status: "Analyzing",
+        image: null,
+        detectedSpec: null,
+        tracker: null
+    }
 ];

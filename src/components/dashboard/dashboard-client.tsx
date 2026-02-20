@@ -10,9 +10,9 @@ import {
 import {
     Car, DollarSign, CalendarCheck, Award, Clock,
     ArrowRight, Wrench, Phone, ChevronRight, Eye,
-    ShoppingCart,
+    ShoppingCart, Shield,
 } from "lucide-react";
-import { ownerMonthlySpend, ownerKpis, nextServiceInfo, vehicleHealth } from "@/data/admin";
+import { ownerMonthlySpend, ownerKpis, nextServiceInfo, vehicleHealth, sourcingRequests, liveServiceUpdates } from "@/data/admin";
 import { AlmasiCar } from "@/types/car";
 import { useServiceStore } from "@/store/service-store";
 import GoldButton from "@/components/ui/gold-button";
@@ -20,6 +20,13 @@ import { cn } from "@/lib/utils";
 import { format, differenceInDays } from "date-fns";
 import { useAuthStore } from "@/store/auth-store";
 import { formatPrice } from "@/lib/utils";
+import DigitalGlovebox from "./digital-glovebox";
+import ImportTracker from "./import-tracker";
+import SourcingRequest from "./sourcing-request";
+import LiveServiceBay from "./live-service-bay";
+import MembershipCard from "./membership-card";
+import PerksSection from "./perks-section";
+import { useState } from "react";
 
 const fadeUp = {
     hidden: { opacity: 0, y: 20 },
@@ -34,6 +41,7 @@ const healthColors: Record<string, { bg: string, border: string, text: string, l
     good: { bg: "bg-emerald-400/10", border: "border-emerald-400/20", text: "text-emerald-400", label: "Good" },
     "due-soon": { bg: "bg-amber-400/10", border: "border-amber-400/20", text: "text-amber-400", label: "Due Soon" },
     overdue: { bg: "bg-red-400/10", border: "border-red-400/20", text: "text-red-400", label: "Overdue" },
+    "in-progress": { bg: "bg-blue-400/10", border: "border-blue-400/20", text: "text-blue-400", label: "In Service" },
 };
 
 function GoldTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number; name: string }>; label?: string }) {
@@ -53,7 +61,13 @@ function GoldTooltip({ active, payload, label }: { active?: boolean; payload?: A
 export default function OwnerDashboardClient({ cars }: { cars: AlmasiCar[] }) {
     const { user } = useAuthStore();
     const { setBookingModalOpen } = useServiceStore();
+    const [gloveboxOpen, setGloveboxOpen] = useState(false);
+    const [liveBayOpen, setLiveBayOpen] = useState(false);
+    const [selectedCar, setSelectedCar] = useState<any>(null);
     const daysUntilService = differenceInDays(new Date(nextServiceInfo.date), new Date());
+
+    // Mock: Select the active sourcing request
+    const activeImport = sourcingRequests.find(r => r.id === "sr1");
 
     /* Suggested vehicles filtered from the full cars catalog (available only) */
     const suggestedCars = cars.filter(c => c.status === "Available").slice(0, 3);
@@ -82,6 +96,17 @@ export default function OwnerDashboardClient({ cars }: { cars: AlmasiCar[] }) {
                     Your vehicles, services & the latest from the showroom.
                 </p>
             </div>
+
+            {/* ─── Active Import Tracker ─── */}
+            {activeImport && activeImport.status === "Importing" && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1, duration: 0.6 }}
+                >
+                    <ImportTracker request={activeImport as any} />
+                </motion.div>
+            )}
 
             {/* ─── KPI Row ─── */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
@@ -171,61 +196,14 @@ export default function OwnerDashboardClient({ cars }: { cars: AlmasiCar[] }) {
                     </div>
                 </motion.div>
 
-                {/* Monthly Spend Chart */}
+                {/* Sourcing Request Card */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4, duration: 0.6 }}
-                    className="lg:col-span-3 bg-card/60 border border-white/[0.06] rounded-sm p-4 sm:p-6"
+                    className="lg:col-span-3"
                 >
-                    <div className="flex items-center justify-between mb-5 sm:mb-6">
-                        <div>
-                            <h3
-                                className="text-sm text-platinum tracking-wider"
-                                style={{ fontFamily: "var(--font-heading)" }}
-                            >
-                                Service Spend
-                            </h3>
-                            <p className="text-[10px] text-muted tracking-wider mt-1">
-                                Monthly spending (KES)
-                            </p>
-                        </div>
-                        <DollarSign className="w-4 h-4 text-gold/40" strokeWidth={1.2} />
-                    </div>
-                    <div className="h-48 sm:h-56">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={ownerMonthlySpend}>
-                                <defs>
-                                    <linearGradient id="spendGradient" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0%" stopColor="#D4AF37" stopOpacity={0.25} />
-                                        <stop offset="100%" stopColor="#D4AF37" stopOpacity={0} />
-                                    </linearGradient>
-                                </defs>
-                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                                <XAxis
-                                    dataKey="month"
-                                    tick={{ fontSize: 10, fill: "#6b7280" }}
-                                    axisLine={false}
-                                    tickLine={false}
-                                />
-                                <YAxis
-                                    tick={{ fontSize: 10, fill: "#6b7280" }}
-                                    axisLine={false}
-                                    tickLine={false}
-                                    tickFormatter={(v) => `${(v / 1000).toFixed(0)}K`}
-                                />
-                                <Tooltip content={<GoldTooltip />} />
-                                <Area
-                                    type="monotone"
-                                    dataKey="amount"
-                                    name="Spend"
-                                    stroke="#D4AF37"
-                                    strokeWidth={2}
-                                    fill="url(#spendGradient)"
-                                />
-                            </AreaChart>
-                        </ResponsiveContainer>
-                    </div>
+                    <SourcingRequest />
                 </motion.div>
             </div>
 
@@ -302,12 +280,70 @@ export default function OwnerDashboardClient({ cars }: { cars: AlmasiCar[] }) {
                                             <span className="text-platinum">{v.mileage.toLocaleString("en-KE")} km</span>
                                         </div>
                                     </div>
+
+                                    <div className="flex gap-2 mt-4">
+                                        <button
+                                            onClick={() => {
+                                                setSelectedCar(v);
+                                                setGloveboxOpen(true);
+                                            }}
+                                            className="flex-1 flex items-center justify-center gap-2 text-[10px] uppercase tracking-wider text-gold hover:text-white border border-gold/20 hover:border-gold/40 hover:bg-gold/10 py-2.5 rounded-sm transition-all duration-300"
+                                        >
+                                            <Shield className="w-3.5 h-3.5" />
+                                            <span className="hidden sm:inline">Digital </span>Glovebox
+                                        </button>
+
+                                        {/* Live View Button for In-Progress, or Start Engine for others */}
+                                        {v.serviceStatus === "in-progress" ? (
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedCar(v);
+                                                    setLiveBayOpen(true);
+                                                }}
+                                                className="flex-1 flex items-center justify-center gap-2 text-[10px] uppercase tracking-wider text-white bg-blue-600/20 hover:bg-blue-600/40 border border-blue-500/30 hover:border-blue-500/50 py-2.5 rounded-sm transition-all duration-300 animate-pulse"
+                                            >
+                                                <Eye className="w-3.5 h-3.5" />
+                                                Live View
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={(e) => {
+                                                    const btn = e.currentTarget;
+                                                    btn.classList.add('animate-shake');
+                                                    setTimeout(() => btn.classList.remove('animate-shake'), 500);
+
+                                                    // Play sound
+                                                    const audio = new Audio('/sounds/engine-start.mp3');
+                                                    audio.volume = 0.5;
+                                                    // Catch error if file doesn't exist
+                                                    audio.play().catch(() => { });
+                                                }}
+                                                className="flex-1 flex items-center justify-center gap-2 text-[10px] uppercase tracking-wider text-platinum hover:text-white border border-white/10 hover:border-white/30 hover:bg-white/5 py-2.5 rounded-sm transition-all duration-300 group/engine"
+                                            >
+                                                <div className="w-2 h-2 rounded-full bg-red-500/50 group-hover/engine:bg-red-500 group-hover/engine:animate-ping transition-all" />
+                                                Start Engine
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
                             </motion.div>
                         );
                     })}
                 </div>
             </div>
+
+            <DigitalGlovebox
+                car={selectedCar || {}}
+                isOpen={gloveboxOpen}
+                onClose={() => setGloveboxOpen(false)}
+            />
+
+            {liveBayOpen && (
+                <LiveServiceBay
+                    data={liveServiceUpdates}
+                    onClose={() => setLiveBayOpen(false)}
+                />
+            )}
 
             {/* ─── Showroom / Browse More Cars ─── */}
             <motion.div
@@ -439,6 +475,36 @@ export default function OwnerDashboardClient({ cars }: { cars: AlmasiCar[] }) {
                             <p className="text-[10px] text-muted truncate">Speak with our team</p>
                         </div>
                     </a>
+                </div>
+            </motion.div>
+
+            {/* ─── Almasi Club Member Section ─── */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7, duration: 0.6 }}
+                className="pt-8 border-t border-white/5"
+            >
+                <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+                    {/* Membership Card */}
+                    <div className="w-full lg:w-1/3">
+                        <div className="mb-6">
+                            <h3 className="text-sm text-platinum tracking-wider uppercase mb-1">
+                                Almasi Black
+                            </h3>
+                            <p className="text-[10px] text-muted">Your passport to exclusive experiences.</p>
+                        </div>
+                        <MembershipCard
+                            name={user?.name || "Brian Njenga"}
+                            memberId="ALM-882-901"
+                            memberSince="2024"
+                        />
+                    </div>
+
+                    {/* Perks & Events */}
+                    <div className="w-full lg:w-2/3">
+                        <PerksSection />
+                    </div>
                 </div>
             </motion.div>
         </div>

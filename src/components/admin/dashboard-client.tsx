@@ -503,7 +503,7 @@ export default function AdminDashboardClient({ cars }: { cars: AlmasiCar[] }) {
                                 <span className="text-sm text-platinum">{a.name}</span>
                                 <span className={cn("text-[9px] tracking-wider uppercase px-2 py-0.5 rounded-sm border", statusColors[a.status])}>{a.status}</span>
                             </div>
-                            <p className="text-xs text-muted">{a.vehicle} — {a.action}</p>
+                            <p className="text-xs text-muted">{a.vehicle} - {a.action}</p>
                             <p className="text-[10px] text-muted/60">{a.time}</p>
                         </div>
                     ))}

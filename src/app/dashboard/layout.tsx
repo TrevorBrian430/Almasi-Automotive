@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
     Diamond, Car, Wrench, History, LayoutDashboard,
-    Menu, X, LogOut, User,
+    Menu, X, LogOut, User, Activity, Globe, Crown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -14,8 +14,11 @@ import { useAuthStore } from "@/store/auth-store";
 const sidebarLinks = [
     { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
     { href: "/dashboard/service", label: "My Garage", icon: Car },
+    { href: "/dashboard/live", label: "Live Service", icon: Activity },
     { href: "/dashboard/service/book", label: "Book Service", icon: Wrench },
     { href: "/dashboard/service/history", label: "Service History", icon: History },
+    { href: "/dashboard/sourcing", label: "Sourcing", icon: Globe },
+    { href: "/dashboard/club", label: "Almasi Club", icon: Crown },
 ];
 
 export default function DashboardLayout({
@@ -55,12 +58,6 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
                         <Menu className="w-4 h-4" strokeWidth={1.5} />
                     )}
                 </button>
-                <span
-                    className="text-xs tracking-[0.2em] uppercase text-platinum/70"
-                    style={{ fontFamily: "var(--font-heading)" }}
-                >
-                    My Dashboard
-                </span>
             </div>
 
             <div className="max-w-[1600px] mx-auto flex">
@@ -134,7 +131,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
                 </aside>
 
                 {/* Main content */}
-                <main className="flex-1 min-h-[calc(100vh-5rem)] lg:ml-0">
+                <main className="flex-1 min-w-0 w-full overflow-x-hidden min-h-[calc(100vh-5rem)] lg:ml-0">
                     <div className="px-4 sm:px-8 lg:px-12 py-8 lg:py-12 mt-12 lg:mt-0">
                         {children}
                     </div>

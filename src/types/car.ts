@@ -26,4 +26,20 @@ export interface AlmasiCar {
         hero: string;
         gallery: string[];
     };
+    documents?: {
+        id: string;
+        title: string;
+        type: "Logbook" | "Insurance" | "Inspection" | "Import" | "Invoice" | "Other";
+        date: string;
+        status: "Verified" | "Pending" | "Expired";
+        url?: string;
+    }[];
+    valuation?: {
+        currency: "KES" | "USD";
+        price: number;
+        purchasePrice: number;
+        lastUpdated: string;
+        trend: number; // Percentage change (e.g., 4.5 for +4.5%)
+        history: { date: string; value: number }[];
+    };
 }

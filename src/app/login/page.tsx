@@ -217,7 +217,7 @@ export default function LoginPage() {
 
                 {/* Footer */}
                 <p className="text-center text-[10px] text-muted/30 tracking-wider mt-6">
-                    Almasi Automotive © 2026 — All rights reserved
+                    Almasi Automotive © 2026 | All rights reserved
                 </p>
             </motion.div>
         </div>

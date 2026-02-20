@@ -145,7 +145,7 @@ export default function ServiceHero() {
                     className="text-muted text-sm sm:text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-8 sm:mb-12"
                 >
                     Factory-trained technicians. Official diagnostic systems. From
-                    routine servicing to full paint correction — your vehicle receives
+                    routine servicing to full paint correction, your vehicle receives
                     the meticulous attention it deserves.
                 </motion.p>
 

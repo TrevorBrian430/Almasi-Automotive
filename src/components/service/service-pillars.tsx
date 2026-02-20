@@ -15,7 +15,7 @@ const pillars = [
         icon: Cpu,
         title: "Advanced Diagnostics",
         description:
-            "Official ISTA, XENTRY, and PIWIS systems. We speak the digital language of BMW, Mercedes, and Porsche — identifying faults your local garage simply cannot.",
+            "Official ISTA, XENTRY, and PIWIS systems. We speak the digital language of BMW, Mercedes, and Porsche, identifying faults your local garage simply cannot.",
         accent: "from-blue-500/20 to-gold/20",
         image: "/cars/2024-bmw-x7-m60i/hero.jpg",
     },
@@ -23,7 +23,7 @@ const pillars = [
         icon: Gauge,
         title: "Performance & Suspension",
         description:
-            "Air strut replacements, engine remapping, and suspension geometry. Restoring factory ride quality — or elevating it beyond.",
+            "Air strut replacements, engine remapping, and suspension geometry. Restoring factory ride quality, or elevating it beyond.",
         accent: "from-red-500/20 to-gold/20",
         image: "/cars/2024-porsche-cayenne-turbo-gt/hero.jpg",
     },
@@ -39,7 +39,7 @@ const pillars = [
         icon: Car,
         title: "Concierge Service",
         description:
-            "We collect your vehicle from your home or office in Nairobi and return it pristine. No trips to the workshop — just a call away.",
+            "We collect your vehicle from your home or office in Nairobi and return it pristine. No trips to the workshop, just a call away.",
         accent: "from-emerald-500/20 to-gold/20",
         image: "/cars/2024-range-rover-autobiography/hero.jpg",
     },
