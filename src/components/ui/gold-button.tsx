@@ -1,18 +1,16 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion, HTMLMotionProps } from "framer-motion";
 import { ReactNode } from "react";
 
-import { HTMLMotionProps } from "framer-motion";
 
-interface GoldButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof HTMLMotionProps<"button">> {
+
+interface GoldButtonProps extends HTMLMotionProps<"button"> {
     children: ReactNode;
     className?: string;
     href?: string;
     size?: "sm" | "md" | "lg";
-    onClick?: () => void;
-    type?: "button" | "submit" | "reset";
 }
 
 export default function GoldButton({
