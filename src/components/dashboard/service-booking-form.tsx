@@ -60,7 +60,7 @@ export default function ServiceBookingForm() {
     }
 
     const inputClass =
-        "w-full bg-white/[0.04] border border-white/[0.08] rounded-sm px-4 py-3 text-sm text-platinum placeholder:text-muted/50 focus:outline-none focus:border-gold/40 focus:ring-1 focus:ring-gold/20 transition-all duration-300";
+        "w-full bg-white/[0.06] border border-white/[0.1] rounded-sm px-4 py-3 text-sm text-platinum placeholder:text-muted/50 focus:outline-none focus:border-gold/40 focus:ring-1 focus:ring-gold/20 transition-all duration-300";
 
     if (submitted) {
         return (
@@ -68,7 +68,7 @@ export default function ServiceBookingForm() {
                 id="booking"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-card/60 border border-white/[0.06] rounded-sm p-6 sm:p-10 text-center"
+                className="bg-card/60 border border-white/[0.06] rounded-sm p-6 sm:p-10 text-center max-w-2xl mx-auto"
             >
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full border border-gold/20 bg-gold/[0.05] mb-6">
                     <CheckCircle className="w-8 h-8 text-gold" strokeWidth={1.2} />
@@ -96,7 +96,7 @@ export default function ServiceBookingForm() {
     }
 
     return (
-        <div id="booking">
+        <div id="booking" className="max-w-3xl mx-auto">
             <div className="flex items-center gap-3 mb-6">
                 <Wrench className="w-5 h-5 text-gold" strokeWidth={1.2} />
                 <h2
@@ -302,7 +302,7 @@ export default function ServiceBookingForm() {
                     )}
                 </div>
 
-                <div className="pt-2">
+                <div className="pt-8">
                     <GoldButton type="submit" size="lg" className="w-full justify-center whitespace-nowrap">
                         {isSubmitting ? (
                             <span className="inline-flex items-center gap-2">

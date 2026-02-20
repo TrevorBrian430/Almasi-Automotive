@@ -17,7 +17,7 @@ export default function ServiceCTA() {
     const { setBookingModalOpen } = useServiceStore();
 
     return (
-        <section className="py-16 sm:py-24 lg:py-32 relative overflow-hidden">
+        <section className="pt-8 sm:pt-12 lg:pt-16 pb-16 sm:pb-24 lg:pb-32 relative overflow-hidden">
             {/* Background glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] sm:w-[600px] h-[300px] sm:h-[400px] rounded-full bg-gold/[0.03] blur-[100px] sm:blur-[120px]" />
 

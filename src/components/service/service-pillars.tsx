@@ -56,7 +56,7 @@ const fadeUp = {
 
 export default function ServicePillarsSection() {
     return (
-        <section id="services" className="py-16 sm:py-24 lg:py-32">
+        <section id="services" className="pt-16 sm:pt-24 lg:pt-32 pb-8 sm:pb-12 lg:pb-16">
             <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10">
                 <SectionHeading
                     title="Our Service Pillars"

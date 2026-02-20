@@ -1,17 +1,22 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useUIStore } from "@/store/ui-store";
 import { useAuthStore } from "@/store/auth-store";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Diamond, LogIn, LayoutDashboard, Shield } from "lucide-react";
-import { useEffect } from "react";
+import { Menu, X, Diamond, LogIn, LayoutDashboard, Shield, ChevronDown } from "lucide-react";
 
-const navLinks = [
+// Primary links always visible
+const mainLinks = [
     { href: "/", label: "Home" },
     { href: "/collection", label: "Collection" },
-    { href: "/compare", label: "Compare" },
     { href: "/service", label: "Service" },
+];
+
+// Secondary links in "Explore" dropdown
+const exploreLinks = [
+    { href: "/compare", label: "Compare" },
     { href: "/about", label: "About" },
 ];
 
@@ -19,6 +24,7 @@ export default function Navbar() {
     const { mobileMenuOpen, setMobileMenuOpen, currency, toggleCurrency } =
         useUIStore();
     const { user, isAuthenticated, hydrate } = useAuthStore();
+    const [exploreOpen, setExploreOpen] = useState(false);
 
     useEffect(() => {
         hydrate();
@@ -50,8 +56,8 @@ export default function Navbar() {
                     </Link>
 
                     {/* Desktop Nav */}
-                    <div className="hidden md:flex items-center gap-10">
-                        {navLinks.map((link) => (
+                    <div className="hidden md:flex items-center gap-8 lg:gap-10">
+                        {mainLinks.map((link) => (
                             <Link
                                 key={link.href}
                                 href={link.href}
@@ -60,6 +66,52 @@ export default function Navbar() {
                                 {link.label}
                             </Link>
                         ))}
+
+                        {/* Explore Dropdown */}
+                        <div
+                            className="relative group"
+                            onMouseEnter={() => setExploreOpen(true)}
+                            onMouseLeave={() => setExploreOpen(false)}
+                        >
+                            <button
+                                className={`flex items-center gap-1.5 text-sm tracking-[0.15em] uppercase transition-colors duration-300 ${exploreOpen ? "text-gold" : "text-muted hover:text-gold"}`}
+                            >
+                                Explore
+                                <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${exploreOpen ? "rotate-180" : ""}`} />
+                            </button>
+
+                            <AnimatePresence>
+                                {exploreOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 10 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="absolute top-full left-1/2 -translate-x-1/2 mt-4 min-w-[160px] bg-[#0A0A0A]/95 backdrop-blur-xl border border-white/[0.08] rounded-sm shadow-xl p-2"
+                                    >
+                                        <div className="flex flex-col gap-1">
+                                            {exploreLinks.map((link) => (
+                                                <Link
+                                                    key={link.href}
+                                                    href={link.href}
+                                                    onClick={() => setExploreOpen(false)}
+                                                    className="px-4 py-3 text-xs tracking-[0.15em] uppercase text-muted hover:text-platinum hover:bg-white/[0.04] rounded-sm transition-all text-center"
+                                                >
+                                                    {link.label}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+
+                        <Link
+                            href="/contact"
+                            className="text-sm tracking-[0.15em] uppercase text-muted hover:text-gold transition-colors duration-300"
+                        >
+                            Contact
+                        </Link>
                     </div>
 
                     {/* Right Actions */}
@@ -131,7 +183,7 @@ export default function Navbar() {
                             className="absolute right-0 top-0 h-full w-[80%] max-w-sm bg-midnight border-l border-white/[0.06] flex flex-col pt-24 sm:pt-28 px-8 sm:px-10"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            {navLinks.map((link, i) => (
+                            {[...mainLinks, ...exploreLinks, { href: "/contact", label: "Contact" }].map((link, i) => (
                                 <motion.div
                                     key={link.href}
                                     initial={{ opacity: 0, x: 30 }}
@@ -153,7 +205,7 @@ export default function Navbar() {
                             <motion.div
                                 initial={{ opacity: 0, x: 30 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.1 + navLinks.length * 0.1, duration: 0.5 }}
+                                transition={{ delay: 0.6, duration: 0.5 }}
                             >
                                 {isAuthenticated ? (
                                     <Link
@@ -186,7 +238,7 @@ export default function Navbar() {
                             <motion.button
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                transition={{ delay: 0.4 }}
+                                transition={{ delay: 0.7 }}
                                 onClick={toggleCurrency}
                                 className="mt-10 flex items-center gap-2 text-sm tracking-[0.15em] uppercase text-muted"
                             >
