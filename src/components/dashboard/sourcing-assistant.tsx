@@ -5,7 +5,7 @@ import { Bot, Send, User, Loader2 } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 export default function SourcingAssistant() {
-    const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+    const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({
         api: '/api/chat',
         initialMessages: [
             {
@@ -74,6 +74,11 @@ export default function SourcingAssistant() {
                         <div className="p-3 bg-[#111] border border-gold/10 rounded-sm flex items-center">
                             <Loader2 className="w-4 h-4 text-gold animate-spin" />
                         </div>
+                    </div>
+                )}
+                {error && (
+                    <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 rounded-sm text-sm text-center">
+                        {error.message || "An error occurred connecting to the Concierge."}
                     </div>
                 )}
                 <div ref={messagesEndRef} />

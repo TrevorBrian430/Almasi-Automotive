@@ -2,7 +2,7 @@ import { generateText, streamText } from 'ai';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 
 const google = createGoogleGenerativeAI({
-    apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+    apiKey: "AIzaSyCjkIdXduS72mk1RWcO3HRnAmfmj-L6K1E",
 });
 
 export const maxDuration = 30; // 30 second timeout
@@ -19,7 +19,7 @@ Always aim to collect the user's specific preferences (Make, Model, Year, Budget
 If asked about things unrelated to luxury vehicles or Almasi's services, politely steer the conversation back to vehicle sourcing.`;
 
         const result = await streamText({
-            model: google('gemini-2.5-flash'),
+            model: google('gemini-pro'),
             system: systemPrompt,
             messages,
         });
