@@ -4,12 +4,10 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
-interface GoldButtonProps {
+interface GoldButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;
     className?: string;
-    onClick?: () => void;
     href?: string;
-    type?: "button" | "submit";
     size?: "sm" | "md" | "lg";
 }
 
@@ -20,6 +18,7 @@ export default function GoldButton({
     href,
     type = "button",
     size = "md",
+    ...props
 }: GoldButtonProps) {
     const sizeClasses = {
         sm: "px-5 py-2 text-xs",
@@ -57,6 +56,7 @@ export default function GoldButton({
             className={classes}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            {...props}
         >
             {children}
         </motion.button>
