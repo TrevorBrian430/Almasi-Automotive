@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import WhatsAppFloat from "@/components/ui/whatsapp-float";
 import SmoothScrollProvider from "@/components/providers/smooth-scroll-provider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -62,6 +63,7 @@ export default async function RootLayout({
             <WhatsAppFloat phone={content?.contact?.phone} />
           </ConditionalLayout>
         </SmoothScrollProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
