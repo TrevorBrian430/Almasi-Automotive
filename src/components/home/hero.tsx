@@ -31,7 +31,7 @@ export default function Hero({ content }: { content?: any }) {
     }, []);
 
     return (
-        <section className="relative h-screen w-full overflow-hidden flex items-center justify-center noise-overlay vignette">
+        <section className="relative min-h-[100svh] w-full overflow-hidden flex items-center justify-center noise-overlay vignette">
             {/* ─── Background Layers ─── */}
             <div className="absolute inset-0 z-0">
                 {/* Base gradient */}
@@ -112,7 +112,7 @@ export default function Hero({ content }: { content?: any }) {
             </div>
 
             {/* ─── Content ─── */}
-            <div className="relative z-10 flex flex-col h-full items-center justify-center text-center px-4 sm:px-6">
+            <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-24 pb-20 w-full min-h-[100svh]">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
