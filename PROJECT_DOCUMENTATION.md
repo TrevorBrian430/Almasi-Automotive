@@ -1,132 +1,117 @@
-# Almasi Automotive - Project Documentation
+# Almasi Automotive - Platform Documentation
 
-## Project Overview
-**Almasi Automotive** is a premium digital platform for a luxury vehicle dealership and service center. The application provides a high-end user experience for browsing exclusive vehicles, booking services, and managing automotive care.
+## 1. Executive Summary
+**Almasi Automotive** is a high-end, premium web platform designed for a luxury car dealership operating in East Africa (Nairobi, Kenya). The platform goes beyond a simple brochure website, functioning as a complete **White-Glove Automotive Concierge Service**. It acts as a bridge between high-net-worth individuals and exclusive international vehicle imports, while seamlessly managing the post-purchase ownership experience (servicing, tracking, and club perks).
 
-Built with **Next.js 14**, **Tailwind CSS**, and **Framer Motion**, it features a sophisticated dark-mode UI with gold accents (`#D4AF37`), emphasizing luxury and exclusivity.
-
----
-
-## 🚀 Key Features Implemented
-
-### 1. **Core Architecture**
-- **Tech Stack**: Next.js (App Router), TypeScript, Tailwind CSS, Framer Motion.
-- **State Management**: Zustand (for Auth, UI, Service, and Filter states).
-- **Authentication (Mock)**: Role-based access control (RBAC) covering:
-  - **Public**: Browse collection, view services.
-  - **Owner**: Access "My Garage," book services, view history.
-  - **Admin**: Manage workshop, bookings, and customer data.
-
-### 2. **Public Facing Pages**
-- **Homepage**: 
-  - Cinematic Hero section with particle effects and 3D-style animations.
-  - Featured Vehicles slider with horizontal scroll.
-  - Service Pillars showcase.
-  - Testimonials and scrolling brand partners.
-- **Collection Page**: 
-  - Grid view of vehicles with advanced filtering (Make, Model, Year, Price).
-  - Search functionality.
-- **Vehicle Detail Page**:
-  - **Fullscreen Lightbox Gallery**: Pinch-to-zoom, swipe navigation, keyboard support.
-  - Detailed specifications and pricing.
-  - "Concierge Bar" for quick mobile booking/WhatsApp contact.
-- **Service Page**:
-  - Visually rich hero section (matching homepage aesthetic).
-  - Detailed service breakdowns (Diagnostics, Performance, Detailing).
-
-### 3. **Owner Dashboard (`/dashboard`)**
-- **Service Portal**:
-  - **My Garage**: Digital twin of owner's vehicles, stacking cards vertically on mobile.
-  - **Book Service**: Dedicated form with vehicle selection and issue description.
-  - **Service History**: Timeline of past maintenance and costs.
-
-### 4. **Admin Dashboard (`/admin`)**
-- **Workshop Kanban Board**: Drag-and-drop interface to track vehicles through service stages (Scheduled → In Bay → Repairing → Ready).
-- **Bookings Management**: List view of all incoming service requests with status tracking.
-- **Customer Directory**: Consolidated view of all clients and their vehicles.
+**Target Audience:**
+*   **High-Net-Worth Individuals (HNWIs):** Executives, business owners, and prominent figures seeking exotic/luxury vehicles (Mercedes G-Class, Range Rovers, Porsches, etc.).
+*   **Discerning Enthusiasts:** Buyers who demand transparency, direct OEM manufacturing standards, and a stress-free import process.
 
 ---
 
-## 🛠️ Features Implemented Today (Latest Session)
+## 2. Core Architecture & Technology Stack
+The platform is built using a modern, scalable, and ultra-fast tech stack designed to deliver a premium user experience.
 
-We focused on refining the mobile UX, visuals, and separating complex workflows into dedicated pages.
-
-### **A. Visual & UX Enhancements**
-1.  **Service Hero Parity**: Ported the homepage's rich visual effects (floating particles, radial orbs, diamond rings, grid overlays) to the Service page for brand consistency.
-2.  **Fullscreen Gallery**: Replaced static images with a fully interactive Lightbox (Zoom/Swipe support).
-3.  **Mobile Responsiveness**:
-    - **My Garage**: Cards now stack vertically on mobile (full width) and switch to horizontal scroll on tablets.
-    - **Admin Bookings**: Converted large tables into compact Cards for mobile view.
-    - **Concierge Bar**: Added glassmorphism transparency and gradient fades to prevent text masking.
-    - **WhatsApp Float**: Position optimizations to clear bottom bars.
-
-### **B. Navigation & Structure**
-4.  **Dashboard Sidebars**: 
-    - Fixed z-index and overlap issues on mobile.
-    - Added dedicated Mobile Top Bars for both Admin and User dashboards.
-    - "Sign Out" button pinned to the bottom for easy access.
-5.  **Page Separation**:
-    - Created dedicated `/dashboard/service/book` and `/dashboard/service/history` pages.
-    - Created dedicated `/admin/bookings` and `/admin/customers` pages.
-
-### **C. Functionality**
-6.  **Enhanced Booking Forms**: 
-    - Added "Owner Details" section (Name, Phone, Email) to both dashboard and public booking forms to ensure admins can contact clients.
-    - Validated Kenyan phone number formats.
-7.  **Clickable CTAs**: Fixed interaction issues where background overlays were blocking button clicks.
-8.  **Footer**: Responsive grid layout and text overlap fixes.
+*   **Framework:** Next.js (React)
+*   **Styling:** Vanilla CSS & Tailwind CSS V4 (utilizing dark themes, glassmorphism, gold gradients, and abstract geometric overlays)
+*   **Animations:** Framer Motion (for smooth, cinematic page reveals, floating particle effects, and premium micro-interactions)
+*   **Scrolling:** Lenis (Smooth Scroll) for a buttery-smooth, native app-like browsing feeling.
+*   **State Management:** Zustand (for lightweight, global modal and user states)
+*   **Forms & Validation:** React Hook Form + Zod (for secure, typed data entry)
+*   **Icons:** Lucide React
 
 ---
 
-## 🔮 Missing Features / Next Steps requests
+## 3. Platform Modules (The 3 Pillars)
 
-To move from "Prototype" to "Production", the following are recommended:
+The Almasi Automotive platform is divided into three distinct experiences:
+1.  **The Public Facing Showroom** (Marketing & Lead Generation)
+2.  **The Client Portal** (`/dashboard`) (Secure Ownership & Concierge)
+3.  **The Admin Control Panel** (`/admin`) (Business Management)
 
-1.  **Backend Integration**: Connect to a real database (e.g., Supabase, PostgreSQL) to persist bookings and vehicle data (currently using Zustand mock stores).
-2.  **Real Authentication**: Replace mock auth with NextAuth.js, Clerk, or Supabase Auth.
-3.  **Image Management**: Admin interface to upload/delete vehicle images (currently hardcoded in `public/`).
-4.  **Notifications**: Send Email/SMS confirmations upon booking (e.g., via Resend or Twilio).
-5.  **Search & Filtering**: Server-side filtering for large vehicle collections.
+---
 
+### Pillar 1: The Public Facing Showroom
+*The face of the brand. Designed to establish trust, showcase the standard of quality, and generate luxury leads.*
 
+#### A. The Landing Page (`/`)
+*   **Cinematic Hero Section:** Features a device-responsive luxury car backdrop (desktop widescreen vs. mobile portrait) with floating 3D gold particles, ambient glowing orbs, and bold typography ("The Art of Acquisition").
+*   **Curated Collection Slider:** A draggable, high-performance carousel showcasing the latest exclusive vehicle arrivals (e.g., Porsche 911 GT3 RS, Range Rover Autobiography) with immersive hover states showing specs (0-100km/h, engine type).
+*   **Service Pillars:** Outlines the brand promises: *Authenticated Inspections, Direct Imports, and White-Glove Concierge*.
+*   **Testimonials:** Social proof section featuring quotes from high-profile clients (CEOs, Surgeons, Property Developers).
+*   **WhatsApp Integration:** A persistent, floating WhatsApp action button for instant, direct communication with the sales team.
 
-Good Features:
+#### B. The Vehicle Collection (`/collection` & `/collection/[slug]`)
+*   **Dynamic Inventory Grid:** A beautifully mapped grid of all available and incoming vehicles.
+*   **Comprehensive Filtering:** Users can filter by Make, Body Style (SUV, Coupe, Sedan), and Price Range.
+*   **Vehicle Detail Pages (VDP):** Deep-dive pages for individual cars featuring:
+    *   Massive high-resolution image galleries.
+    *   Performance metrics (Power, Torque, Top Speed).
+    *   Feature lists categorized by Interior, Exterior, and Technology.
+    *   Sticky "Reserve This Vehicle" CTA.
+    *   **Immersive Vehicle Comparisons:** A tool allowing users to select multiple cars from the collection and compare their specs side-by-side.
 
-1. The "Digital Glovebox" (Smart Asset Management)
-Currently, you have a "list of cars." Let's turn that into a secure Digital Asset Vault.
+#### C. The Service & Care Standard (`/service`)
+*   **"Precision Care" Hero:** Avoids standard imagery in favor of pure, abstract geometric CSS styling to convey extreme precision and "Manufacturer Standards".
+*   **Service Offerings:** Details routine servicing, diagnostics, and paint correction.
+*   **Direct Booking Flow:** Triggers a global modal allowing users to request a service bay appointment instantly.
 
-What it is: A secure, encrypted space for every document related to the vehicle.
-Deep Features:
-The "Docs" Tab: Instant access to the Logbook, Insurance Sticker, Inspection Certificates, and Import Papers. No more fumbling in the actual glovebox when stopped by traffic police; you just open the app.
-Live Valuation: Real-time AI estimated value of their specific car based on market trends. "Your Land Cruiser LC300 has appreciated by 4% this month."
-"Sell Back" Button: One-tap option to get a guaranteed buy-back offer from Almasi.
-2. "Sourcing Concierge" with Visual AI
-Move beyond just "Contact Us" to a proactive acquisition tool.
+#### D. About Us (`/about`)
+*   **Brand Story:** Details the origins and mission of Almasi Automotive in East Africa.
+*   **Location:** Includes showroom details for Westlands, Nairobi.
 
-The Idea: "I saw this car, I want it."
-Deep Feature: Users can upload a photo of a car they spotted on the street or Instagram. Your system identifies the model/spec and starts a "Sourcing Request" to find that exact car in the UK/Japan/Australia.
-Import Tracker: A "Domino's Pizza Tracker" but for a $150k vehicle.
-Stage 1: Verified in UK
-Stage 2: Loaded on Vessel (Map location)
-Stage 3: Arrived Mombasa
-Stage 4: Customs Cleared
-Stage 5: En Route to Westlands
-3. "Live Service Bay" (Radical Transparency)
-This builds immense trust, which is the currency of your business.
+---
 
-The Idea: When a car is checked in for service (Booking Status = "In Bay"), the user gets a "Live View" tab.
-Deep Feature:
-Tech Cam: Periodic photo updates uploaded by the technician. "Technician John just removed the oil filter."
-Visual Health Check: Instead of a text report, a short video clip showing the worn brake pad vs. a new one, sent directly to the user for approval.
-4. Immersion: "The Start-Up Sound"
-Luxury cars are emotional. Connect with the senses.
+### Pillar 2: The Client Portal (`/dashboard`)
+*A secure, authenticated area for existing clients to manage their ultra-luxury assets.*
 
-The Idea: On the "My Garage" dashboard, add a "Start Engine" button next to their car.
-Creativity: When clicked, it plays the actual cold-start exhaust note of their specific model (e.g., the roar of their G63 AMG or the purr of their S-Class). It’s a small, "toy-like" feature that owners would show off to friends.
-5. Almasi "Black Card" (Lifestyle & Community)
-Turn the customer base into a club.
+#### A. The Dashboard Overview (`/dashboard`)
+*   **Fleet Summary:** Shows the user their actively owned vehicles.
+*   **Active Concierge Requests:** Tracks ongoing import requests or active service tickets.
 
-The Idea: The app acts as a membership card.
-Deep Feature:
-Partner Perks: Flash the Almasi App at partner luxury hotels (e.g., Villa Rosa Kempinski) or restaurants for VIP parking or a free drink.
-Events: "Sunday Morning Drive" sign-ups. Limited slots, bookable only via the app.
+#### B. Live Service Bay (`/dashboard/live`)
+*   **Real-time Transparency:** A standout feature where clients can watch their car being serviced live.
+*   **Live Ticket Updates:** A scrolling timeline feed showing mechanic notes, diagnostic readouts, and part replacements in real-time.
+*   **Direct Mechanic Chat:** Secure messaging channel directly to the chief technician working on the vehicle.
+
+#### C. Service & Booking (`/dashboard/service` & `/dashboard/service/book`)
+*   **Digital Garage:** Clients can select which of their specific vehicles needs attention.
+*   **Detailed Booking Form:** Full screen width form asking for Service Type (Routine, Diagnostic, Repair), Preferred Dates, and specific symptoms.
+*   **Service History:** A permanent digital ledger of all past work done on the vehicle, ensuring total provenance and protecting the resale value of the car.
+
+#### D. Sourcing Concierge (`/dashboard/sourcing`)
+*   **Bespoke Import Requests:** Clients can request the dealership to hunt down a specific, rare vehicle globally.
+*   **Live Import Tracker:** A visual timeline showing the status of their requested car (e.g., *Sourced in UK -> Inspection Passed -> On Ship transport -> Cleared KRA Customs -> Ready for Delivery*).
+
+#### E. Almasi Club (`/dashboard/club`)
+*   **Exclusive VIP Tier:** A loyalty and lifestyle section for top-tier clients.
+*   **Club Perks:** Access to track days, private viewing events for new hypercars, and exclusive partnerships (e.g., luxury hotel stays, high-end dining).
+
+---
+
+### Pillar 3: Admin Control Panel (`/admin`)
+*The central nervous system for the dealership staff to manage the entire operation securely.*
+
+#### A. Fleet & Inventory Management (`/admin/fleet`)
+*   **Inventory CRUD:** Full ability to Create, Read, Update, and Delete vehicles from the public collection.
+*   **Detailed Spec Editing:** Admins can define every metric (Engine, 0-100, Price, Mileage, Status: Available/Sold/In-Transit).
+*   **Image Management:** Systems to handle vehicle gallery arrays.
+
+#### B. Booking & Lead Management (`/admin/bookings`)
+*   **Central Inbox:** A dashboard to view all incoming service requests and vehicle inquiries.
+*   **Status Toggles:** Ability to mark leads as *Pending, Confirmed, or Completed*.
+
+#### C. Active Workshop (`/admin/workshop`)
+*   **Service Bay Control:** The backend analog to the client's "Live Service Bay".
+*   **Live Updates:** Admins can post real-time updates, photos, and mechanic notes to specific client timelines.
+
+#### D. User & Client CRM (`/admin/users`)
+*   **Client Database:** Management of all registered VIP clients and their linked vehicle fleets.
+
+---
+
+## 4. UI/UX Design System Features
+*   **Strict Color Palette:** Deep Midnight Black `#050505`, Platinum Text `#E2E8F0`, and Signature Gold `#D4AF37`.
+*   **Typography:** Elegant serif headings (`Cinzel`) paired with highly legible sans-serif body text (`Manrope`).
+*   **Responsive Fluidity:** Every component is built mobile-first. The platform intelligently swaps background images (e.g., taking heavy 4k widescreen images on desktop and dynamically swapping them to optimized 9:16 portrait images on mobile) to ensure no awkward cropping and instant load times.
+*   **Scroll Hijacking Prevention:** Features custom scroll containers with `data-lenis-prevent` to allow native mouse-wheel scrolling inside nested menus and live feeds without breaking the main page's smooth scroll effect.
