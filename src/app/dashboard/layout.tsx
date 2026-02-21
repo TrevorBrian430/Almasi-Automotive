@@ -66,11 +66,11 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
                 </span>
             </div>
 
-            <div className="max-w-[1600px] mx-auto flex">
+            <div className="flex w-full min-w-0">
                 {/* Sidebar */}
                 <aside
                     className={cn(
-                        "fixed lg:sticky top-16 lg:top-20 left-0 h-[calc(100dvh-4rem)] lg:h-[calc(100vh-5rem)] w-64 bg-[#070707] border-r border-white/[0.06] flex flex-col z-30 transition-transform duration-300 lg:translate-x-0",
+                        "fixed lg:sticky top-16 lg:top-0 left-0 h-[calc(100dvh-4rem)] lg:h-screen w-64 bg-[#070707] border-r border-white/[0.06] flex flex-col z-30 transition-transform duration-300 lg:translate-x-0",
                         sidebarOpen ? "translate-x-0" : "-translate-x-full"
                     )}
                 >
@@ -91,7 +91,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
                     </div>
 
                     {/* Nav */}
-                    <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+                    <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto" data-lenis-prevent="true">
                         {sidebarLinks.map((link) => {
                             const isActive = pathname === link.href;
                             return (
@@ -137,7 +137,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
                 </aside>
 
                 {/* Main content */}
-                <main className="flex-1 min-w-0 w-full overflow-x-hidden min-h-[calc(100vh-5rem)] lg:ml-0">
+                <main className="flex-1 min-w-0 w-full overflow-x-hidden min-h-screen lg:ml-0">
                     <div className="px-4 sm:px-8 lg:px-12 py-8 lg:py-12 mt-12 lg:mt-0">
                         {children}
                     </div>

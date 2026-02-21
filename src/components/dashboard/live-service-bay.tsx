@@ -63,7 +63,7 @@ export default function LiveServiceBay({ data, onClose, isPage = false }: LiveSe
                 <div className={cn(
                     "flex-1 flex flex-col md:border-r border-white/10 order-2 md:order-1",
                     isPage ? "overflow-visible md:overflow-y-auto" : "overflow-y-auto custom-scrollbar"
-                )}>
+                )} data-lenis-prevent="true">
                     {/* Header */}
                     <div className="p-6 border-b border-white/10 flex items-center justify-between shrink-0 sticky top-0 bg-[#0A0A0A] z-40 shadow-md">
                         <div>

@@ -96,7 +96,7 @@ export default function ServiceBookingForm() {
     }
 
     return (
-        <div id="booking" className="max-w-3xl">
+        <div id="booking" className="max-w-5xl">
             <div className="flex items-center gap-3 mb-6">
                 <Wrench className="w-5 h-5 text-gold" strokeWidth={1.2} />
                 <h2
