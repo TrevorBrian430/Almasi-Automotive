@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import GoldButton from "@/components/ui/gold-button";
+import { cn } from "@/lib/utils";
 
 /* ─── Floating gold particles (generated client-side to avoid hydration mismatch) ─── */
 function generateParticles() {
@@ -24,11 +25,26 @@ export default function Hero({ content }: { content?: any }) {
     // Default connection
     const title = content?.title || "The Art of \nAcquisition";
     const subtitle = content?.subtitle || "We curate the world's most distinguished automobiles for East Africa's most discerning individuals. Direct imports. Exceptional financing. White-glove concierge.";
-    const bgImage = content?.image; // Used for inline style if provided
+
+    // Background Image Resolution Logic
+    const desktopBg = content?.image || "/images/landing-page/hero-bg.jpg";
+    const isCustomBg = content?.image && content.image !== "/images/landing-page/hero-bg.jpg";
+    const mobileBg = content?.mobileImage || (isCustomBg ? content.image : "/images/landing-page/hero-bg-mobile.jpg");
+
+    // Track window width for responsive background image outside of tailwind arbitrary compilation 
+    const [isMobile, setIsMobile] = useState(true);
 
     useEffect(() => {
         setParticles(generateParticles());
+
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile(); // Check on mount
+
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
     }, []);
+
+    const activeBgImage = isMobile ? mobileBg : desktopBg;
 
     return (
         <section className="relative min-h-[100svh] w-full overflow-hidden flex items-center justify-center noise-overlay vignette">
@@ -36,8 +52,8 @@ export default function Hero({ content }: { content?: any }) {
             <div className="absolute inset-0 z-0">
                 {/* Base gradient */}
                 <div
-                    className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#030303] to-[#0a0a0a]"
-                    style={bgImage ? { backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundBlendMode: 'overlay' } : undefined}
+                    className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#030303] to-[#0a0a0a] bg-cover bg-center mix-blend-overlay transition-all duration-700"
+                    style={{ backgroundImage: `url(${activeBgImage})` }}
                 />
 
                 {/* Animated radial gradient orbs */}
@@ -112,7 +128,7 @@ export default function Hero({ content }: { content?: any }) {
             </div>
 
             {/* ─── Content ─── */}
-            <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-24 pb-20 w-full min-h-[100svh]">
+            <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-16 pb-12 sm:pt-24 sm:pb-20 w-full min-h-[100svh]">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -177,7 +193,7 @@ export default function Hero({ content }: { content?: any }) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2, duration: 1 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10"
+                className="absolute bottom-4 sm:bottom-10 left-1/2 -translate-x-1/2 z-10"
             >
                 <motion.div
                     animate={{ y: [0, 8, 0] }}

@@ -2,7 +2,8 @@
     "hero": {
         "title": "The Art of \nAcquisition",
         "subtitle": "We curate the world's most distinguished automobiles for East Africa's most discerning individuals. Direct imports. Exceptional financing. White-glove concierge.",
-        "image": "/images/landing-page/hero-bg.jpg"
+        "image": "/images/landing-page/hero-bg.jpg",
+        "mobileImage": "/images/landing-page/hero-bg-mobile.jpg"
     },
     "about": {
         "title": "The Almasi Standard",

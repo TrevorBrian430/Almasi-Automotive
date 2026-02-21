@@ -110,7 +110,7 @@ export default function ServiceHero() {
             </div>
 
             {/* ─── Content ─── */}
-            <div className="relative z-10 flex flex-col items-center justify-center text-center px-5 sm:px-6 pt-24 pb-20 max-w-4xl mx-auto w-full min-h-[100svh]">
+            <div className="relative z-10 flex flex-col items-center justify-center text-center px-5 sm:px-6 pt-16 pb-12 sm:pt-24 sm:pb-20 max-w-4xl mx-auto w-full min-h-[100svh]">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -173,7 +173,7 @@ export default function ServiceHero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2, duration: 1 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10"
+                className="absolute bottom-4 sm:bottom-10 left-1/2 -translate-x-1/2 z-10"
             >
                 <motion.div
                     animate={{ y: [0, 8, 0] }}
